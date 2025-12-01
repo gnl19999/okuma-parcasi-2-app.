@@ -9,17 +9,23 @@
         /* GENEL VE MOBİL UYUMLULUK STİLLERİ */
         body {
             font-family: Arial, sans-serif;
-            padding: 15px; 
+            padding: 0; 
             margin: 0;
             line-height: 1.6;
             box-sizing: border-box;
-            /* Iframe uyumu için yükseklik ve taşma ayarları */
             min-height: 100vh; 
             overflow-x: hidden; 
             position: relative; 
         }
-        h2 { color: #00796b; padding-bottom: 5px; }
+        h2 { color: #00796b; padding-bottom: 5px; margin-top: 0; }
         
+        /* ANA İÇERİK (Metnin Kendisi) */
+        .main-content {
+            padding: 15px; /* Metne kenar boşluğu ekle */
+            transition: margin-right .5s; /* Kayma efekti için geçiş */
+            box-sizing: border-box;
+        }
+
         /* CÜMLE VURGULAMA VE ÇEVİRİ STİLLERİ */
         .sentence-group { cursor: pointer; padding: 5px; margin-bottom: 15px; }
         .english-sentence { font-weight: bold; color: #333; }
@@ -31,7 +37,7 @@
         #word-list-panel {
             height: 100%; 
             width: 0; 
-            position: absolute; /* Iframe uyumu için 'fixed' yerine 'absolute' deniyoruz */
+            position: absolute; 
             z-index: 100; 
             top: 0;
             right: 0;
@@ -40,8 +46,6 @@
             transition: 0.5s;
             box-shadow: -5px 0 15px rgba(0,0,0,0.3);
             box-sizing: border-box;
-            
-            /* GÖRSELİNİZDEKİ GİBİ ÜST BAR İÇİN BOŞLUK */
             padding-top: 50px; 
         }
         
@@ -49,6 +53,11 @@
             width: 75%; /* Mobil ekranın %75'ini kapla */
         }
         
+        /* PANEL AÇILDIĞINDA METNİ YANA İTEN STİL */
+        .main-content-pushed {
+            margin-right: 75%; /* Panelin genişliği kadar metni sola it */
+        }
+
         .panel-content { padding: 15px; }
 
         /* ÜST BAR VE BUTON STİLLERİ */
@@ -86,13 +95,13 @@
         .word-table td:first-child { 
             font-weight: bold; 
             color: #333;
-            width: 50%; /* Kelimeler için %50 alan */
+            width: 50%; 
         }
         .word-table td:last-child {
              color: #666; 
         }
         
-        /* KAPAT BUTONU STİLİ (Basit X) */
+        /* KAPAT BUTONU STİLİ */
         .close-btn {
             position: absolute;
             top: 5px;
@@ -123,12 +132,12 @@
                     <tr><td>keep safe</td><td>güvende tutmak, -den korumak</td></tr>
                     <tr><td>strong</td><td>güçlü, kuvvetli</td></tr>
                     <tr><td>flipper</td><td>yüzgeç</td></tr>
-                    </tbody>
+                </tbody>
             </table>
         </div>
     </div>
     
-    <div class="main-content">
+    <div class="main-content" id="main-content">
         
         <div class="top-bar">
             <button id="word-button" onclick="openNav()">W Kelimeler</button>
@@ -151,13 +160,12 @@
                 <span class="english-sentence">The green <span class="vibrant-word">turtle</span> has a hard <span class="vibrant-word">shell</span>. The shell <span class="vibrant-word">keeps</span> the <span class="vibrant-word">turtle</span> <span class="vibrant-word">safe</span>.</span>
                 <p class="translation">Yeşil kaplumbağanın sert bir kabuğu vardır. Kabuk, kaplumbağayı güvende tutar.</p>
             </div>
-
-            </div>
+            
+        </div>
     </div>
 
 
     <script>
-        // Cümle çevirisini açma/kapama
         function toggleTranslation(element) {
             var translation = element.querySelector('.translation');
             
@@ -168,23 +176,25 @@
             }
         }
         
-        // Yandan açılır paneli açma
         function openNav() {
-            // 'panel-open' sınıfını ekleyerek genişliği %75'e ayarlar (açar)
+            // Paneli aç
             document.getElementById("word-list-panel").classList.add("panel-open");
+            // Ana içeriği it
+            document.getElementById("main-content").classList.add("main-content-pushed");
         }
 
-        // Yandan açılır paneli kapama
         function closeNav() {
+            // Paneli kapat
             document.getElementById("word-list-panel").classList.remove("panel-open");
+            // Ana içeriği geri çek
+            document.getElementById("main-content").classList.remove("main-content-pushed");
         }
         
-        // Ekran boyutu çok büyük değilse butona tıklama dışındaki tıklamaları yakala ve paneli kapat
+        // Panel dışına tıklanınca paneli kapatma
         document.addEventListener('click', function(event) {
             var panel = document.getElementById("word-list-panel");
             var button = document.getElementById("word-button");
 
-            // Panel açıksa ve tıklanan yer ne panelin içinde ne de butonsa paneli kapat
             if (panel.classList.contains('panel-open') && !panel.contains(event.target) && !button.contains(event.target)) {
                 closeNav();
             }
