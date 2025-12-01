@@ -1,35 +1,196 @@
-<script>
-    // Cümle çevirisini açma/kapama fonksiyonu (Bu daha önce çalışıyordu)
-    function toggleTranslation(element) {
-        var translation = element.querySelector('.translation');
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnglishBox Reading</title>
+    
+    <style>
+        /* GENEL VE MOBİL UYUMLULUK STİLLERİ */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 15px; 
+            margin: 0;
+            line-height: 1.6;
+            box-sizing: border-box;
+            /* Iframe uyumu için yükseklik ve taşma ayarları */
+            min-height: 100vh; 
+            overflow-x: hidden; 
+            position: relative; 
+        }
+        h2 { color: #00796b; padding-bottom: 5px; }
         
-        if (translation.classList.contains('active-translation')) {
-            translation.classList.remove('active-translation');
-        } else {
-            translation.classList.add('active-translation');
-        }
-    }
-    
-    // Yandan açılır paneli açma fonksiyonu
-    function openNav() {
-        // 'panel-open' sınıfını ekleyerek genişliği %75'e ayarlar (açar)
-        document.getElementById("word-list-panel").classList.add("panel-open");
-    }
+        /* CÜMLE VURGULAMA VE ÇEVİRİ STİLLERİ */
+        .sentence-group { cursor: pointer; padding: 5px; margin-bottom: 15px; }
+        .english-sentence { font-weight: bold; color: #333; }
+        .vibrant-word { color: #00796b; font-weight: bold; }
+        .translation { display: none; color: #00796b; font-style: italic; margin-top: 5px; padding-left: 10px; border-left: 3px solid #00796b; }
+        .active-translation { display: block; }
 
-    // Yandan açılır paneli kapama fonksiyonu
-    function closeNav() {
-        // 'panel-open' sınıfını kaldırarak genişliği 0'a ayarlar (kapatır)
-        document.getElementById("word-list-panel").classList.remove("panel-open");
-    }
-    
-    // Panel dışına tıklanınca paneli kapatma işlevi (opsiyonel)
-    document.addEventListener('click', function(event) {
-        var panel = document.getElementById("word-list-panel");
-        var button = document.getElementById("word-button");
-
-        if (panel.classList.contains('panel-open') && !panel.contains(event.target) && !button.contains(event.target)) {
-            closeNav();
+        /* YANDAN AÇILIR PANEL (SIDEBAR) STİLLERİ */
+        #word-list-panel {
+            height: 100%; 
+            width: 0; 
+            position: absolute; /* Iframe uyumu için 'fixed' yerine 'absolute' deniyoruz */
+            z-index: 100; 
+            top: 0;
+            right: 0;
+            background-color: #f8f8f8;
+            overflow-y: auto; 
+            transition: 0.5s;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+            
+            /* GÖRSELİNİZDEKİ GİBİ ÜST BAR İÇİN BOŞLUK */
+            padding-top: 50px; 
         }
-    });
+        
+        .panel-open {
+            width: 75%; /* Mobil ekranın %75'ini kapla */
+        }
+        
+        .panel-content { padding: 15px; }
+
+        /* ÜST BAR VE BUTON STİLLERİ */
+        .top-bar {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 10px 15px;
+            z-index: 5;
+            text-align: right;
+            border-bottom: 1px solid #eee;
+        }
+        
+        #word-button {
+            background-color: #00796b;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* KELİME LİSTESİ TABLO STİLLERİ */
+        .word-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .word-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+        .word-table td:first-child { 
+            font-weight: bold; 
+            color: #333;
+            width: 50%; /* Kelimeler için %50 alan */
+        }
+        .word-table td:last-child {
+             color: #666; 
+        }
+        
+        /* KAPAT BUTONU STİLİ (Basit X) */
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            font-size: 30px;
+            color: #00796b;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="word-list-panel">
+        <span class="close-btn" onclick="closeNav()">&times;</span>
+        <div class="panel-content">
+            <table class="word-table">
+                <tbody>
+                    <tr><td>turtle</td><td>deniz kaplumbağası, kaplumbağa</td></tr>
+                    <tr><td>large</td><td>büyük, iri</td></tr>
+                    <tr><td>live</td><td>yaşamak</td></tr>
+                    <tr><td>like</td><td>hoşlanmak, sevmek</td></tr>
+                    <tr><td>warm</td><td>ılık, sıcacık</td></tr>
+                    <tr><td>eat</td><td>yemek</td></tr>
+                    <tr><td>plant</td><td>bitki</td></tr>
+                    <tr><td>grow</td><td>büyümek, yetişmek</td></tr>
+                    <tr><td>shell</td><td>kabuk</td></tr>
+                    <tr><td>keep safe</td><td>güvende tutmak, -den korumak</td></tr>
+                    <tr><td>strong</td><td>güçlü, kuvvetli</td></tr>
+                    <tr><td>flipper</td><td>yüzgeç</td></tr>
+                    </tbody>
+            </table>
+        </div>
+    </div>
     
-</script>
+    <div class="main-content">
+        
+        <div class="top-bar">
+            <button id="word-button" onclick="openNav()">W Kelimeler</button>
+        </div>
+
+        <div class="reading-section">
+            <h2>Green Turtles (A1 Reading)</h2>
+            
+            <div class="sentence-group" onclick="toggleTranslation(this)">
+                <span class="english-sentence">Green turtles are very <span class="vibrant-word">large</span>. They <span class="vibrant-word">live</span> in the sea, and they <span class="vibrant-word">like</span> <span class="vibrant-word">warm</span> water.</span>
+                <p class="translation">Yeşil kaplumbağalar çok büyüktür. Onlar denizde yaşar ve ılık suyu severler.</p>
+            </div>
+            
+            <div class="sentence-group" onclick="toggleTranslation(this)">
+                <span class="english-sentence">These <span class="vibrant-word">turtles</span> <span class="vibrant-word">eat</span> green <span class="vibrant-word">plants</span> in the sea. They can <span class="vibrant-word">grow</span> to be 1-1,5 m long.</span>
+                <p class="translation">Bu kaplumbağalar denizde yeşil bitkileri yerler. 1-1,5 m uzunluğuna kadar büyüyebilirler.</p>
+            </div>
+            
+            <div class="sentence-group" onclick="toggleTranslation(this)">
+                <span class="english-sentence">The green <span class="vibrant-word">turtle</span> has a hard <span class="vibrant-word">shell</span>. The shell <span class="vibrant-word">keeps</span> the <span class="vibrant-word">turtle</span> <span class="vibrant-word">safe</span>.</span>
+                <p class="translation">Yeşil kaplumbağanın sert bir kabuğu vardır. Kabuk, kaplumbağayı güvende tutar.</p>
+            </div>
+
+            </div>
+    </div>
+
+
+    <script>
+        // Cümle çevirisini açma/kapama
+        function toggleTranslation(element) {
+            var translation = element.querySelector('.translation');
+            
+            if (translation.classList.contains('active-translation')) {
+                translation.classList.remove('active-translation');
+            } else {
+                translation.classList.add('active-translation');
+            }
+        }
+        
+        // Yandan açılır paneli açma
+        function openNav() {
+            // 'panel-open' sınıfını ekleyerek genişliği %75'e ayarlar (açar)
+            document.getElementById("word-list-panel").classList.add("panel-open");
+        }
+
+        // Yandan açılır paneli kapama
+        function closeNav() {
+            document.getElementById("word-list-panel").classList.remove("panel-open");
+        }
+        
+        // Ekran boyutu çok büyük değilse butona tıklama dışındaki tıklamaları yakala ve paneli kapat
+        document.addEventListener('click', function(event) {
+            var panel = document.getElementById("word-list-panel");
+            var button = document.getElementById("word-button");
+
+            // Panel açıksa ve tıklanan yer ne panelin içinde ne de butonsa paneli kapat
+            if (panel.classList.contains('panel-open') && !panel.contains(event.target) && !button.contains(event.target)) {
+                closeNav();
+            }
+        });
+        
+    </script>
+
+</body>
+</html>
