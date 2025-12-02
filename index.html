@@ -45,7 +45,7 @@
         
         /* Çeviri Arka Planı Yeşil */
         .translation-tooltip {
-            /* Başlangıçta gizli ve sıfır yükseklikte */
+            /* Başlangıçta gizli ve sıfır yükseklikte - YENİ VE ÖNEMLİ! */
             visibility: hidden;
             opacity: 0;
             height: 0;
@@ -65,11 +65,11 @@
             font-style: italic;
             overflow: hidden;
         }
-        /* Aktif cümleye tıklandığında çeviriyi göster */
+        /* Aktif cümleye tıklandığında çeviriyi göster - YENİ VE ÖNEMLİ! */
         .sentence-paragraph.active .translation-tooltip {
             visibility: visible;
             opacity: 1;
-            height: auto; 
+            height: auto; /* İçeriğin yüksekliğine göre ayarlanır */
             padding: 8px 10px;
         }
         
@@ -259,40 +259,50 @@
         let score = 0;
         const allTranslations = quizData.map(q => q.correct);
 
-        // --- Cümle Çeviri Fonksiyonları (Optimize Edildi) ---
+        // --- Cümle Çeviri Fonksiyonları (Optimize Edildi - İstenen Değişiklikler Burada) ---
         
-        // TÜM ÇEVİRİLERİ KAPATIR
+        /**
+         * Tüm cümle çevirilerinin görünürlüğünü kapatır.
+         */
         function closeAllTranslations() {
             sentenceParagraphs.forEach(container => {
                 container.classList.remove('active');
             });
         }
         
-        // TIKLANAN CÜMLENİN ÇEVİRİSİNİ AÇAR (Diğerlerini kapatırken)
+        /**
+         * Tıklanan cümlenin çevirisini açar/kapatır ve diğerlerini kapatır.
+         * @param {HTMLElement} element - Tıklanan cümle paragrafı elementi.
+         */
         function handleSentenceClick(element) {
             const isActive = element.classList.contains('active');
             
             // Önce tüm çevirileri kapat
             closeAllTranslations();
             
-            // Eğer tıklandığında aktif değilse, sadece o cümleyi aktif et
+            // Eğer tıklandığında aktif değilse (kapatılmışsa), sadece o cümleyi aktif et (aç)
             if (!isActive) {
                 element.classList.add('active');
             }
+            // Eğer aktifse (açıksa) ve closeAllTranslations ile kapandıysa, bu kısmı tekrar açmaz.
+            // Bu, aynı yere tekrar tıklamanın kapatma işlevini görmesini sağlar.
         }
 
         // Cümle tıklama olaylarını dinleme
         sentenceParagraphs.forEach(paragraph => {
             paragraph.addEventListener('click', function(event) {
-                // Tıklanan öğenin bir alt etiket değil, cümle kapsayıcısı olduğundan emin olun
-                // Bu, highlighted kelimeye tıklasanız bile cümleyi açar/kapatır
+                // Tıklanan öğe ne olursa olsun (highlighted kelime vs.), kapsayıcı paragrafı işle
                 handleSentenceClick(this);
             });
         });
 
         // Vücudun herhangi bir yerine tıklanırsa açık olan çevirileri kapat
         document.body.addEventListener('click', function(e) {
-            if (!e.target.closest('.sentence-paragraph') && !e.target.closest('.top-buttons') && !e.target.closest('.words-sidebar') && !e.target.closest('.quiz-container')) {
+            // Tıklanan öğe bir cümle paragrafı, buton veya sidebar/quiz alanı DEĞİLSE
+            if (!e.target.closest('.sentence-paragraph') && 
+                !e.target.closest('.top-buttons') && 
+                !e.target.closest('.words-sidebar') && 
+                !e.target.closest('.quiz-container')) {
                 closeAllTranslations();
             }
         });
