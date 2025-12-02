@@ -44,12 +44,12 @@
             font-weight: 500;
         }
         
-        /* YENİ: CÜMLE KAPSAYICISI VE ÇEVİRİ İPUCU STİLİ */
+        /* CÜMLE KAPSAYICISI VE ÇEVİRİ İPUCU STİLİ */
         .sentence-container {
             position: relative;
-            display: block;  /* Cümlenin tüm satırı kaplamasını sağlar */
+            display: block;
             margin-bottom: 15px;
-            cursor: pointer; /* Tıklanabilir olduğunu gösterir */
+            cursor: pointer; 
             padding: 5px;
             border-bottom: 1px dotted #ccc;
         }
@@ -59,7 +59,7 @@
         .translation-tooltip {
             visibility: hidden;
             opacity: 0;
-            width: 100%;
+            width: 95%; /* Genişlik ayarı */
             background-color: #007bff; /* Mavi arka plan */
             color: white;
             text-align: left;
@@ -67,8 +67,8 @@
             padding: 8px 10px;
             position: absolute;
             z-index: 10;
-            bottom: -30px; /* Çevirinin cümlenin hemen altında görünmesi için */
-            left: 0;
+            top: 100%; /* Cümlenin hemen altına inmesi için */
+            left: 5px;
             transition: opacity 0.3s, visibility 0.3s;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             font-size: 14px;
@@ -78,7 +78,7 @@
             visibility: visible;
             opacity: 1;
         }
-        /* END YENİ STİL */
+        /* END YENİ ÇEVİRİ STİLİ */
 
 
         /* KELİMELER PANELİ (SIDEBAR) STİLİ */
@@ -92,7 +92,7 @@
             background-color: #f1f1f1;
             overflow-y: auto;
             padding-top: 20px;
-            transform: translateX(300px); 
+            transform: translateX(300px); /* GİZLEME YÖNTEMİ */
             transition: transform 0.5s;
             box-shadow: -5px 0 15px rgba(0,0,0,0.1);
         }
@@ -321,6 +321,14 @@
             container.classList.remove('active');
         });
     }
+    
+    // 4. Vücudun herhangi bir yerine tıklanırsa açık olan çevirileri kapat
+    document.body.addEventListener('click', function(e) {
+        // Tıklanan yer bir cümle kapsayıcısı veya buton/sidebar değilse kapat
+        if (!e.target.closest('.sentence-container') && !e.target.closest('.top-buttons') && !e.target.closest('.words-sidebar')) {
+            closeAllTranslations();
+        }
+    });
 </script>
 
 </body>
