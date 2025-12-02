@@ -40,7 +40,7 @@
 
         /* VURGULU KELİMELER */
         .highlight {
-            color: #79a109; /* Görseldeki yeşil tonuna yakın */
+            color: #79a109; /* Yeşil tonu */
             font-weight: 500;
         }
 
@@ -60,9 +60,11 @@
         }
         .words-sidebar.open {
             width: 300px; /* Açıkken genişlik */
+            padding-left: 10px; /* İçerik için boşluk */
+            padding-right: 10px;
         }
         .sidebar-content {
-            padding: 0 20px 20px 20px;
+            padding: 0 10px 20px 10px;
         }
         .main-container.pushed {
             margin-right: 300px;
@@ -126,39 +128,59 @@
 <body>
 
 <div class="top-buttons">
-    <button onclick="openNav()">W Kelimeler</button>
+    <button onclick="toggleNav()">W Kelimeler</button>
     <button style="background-color: #5bc0de;">Word Quiz</button>
     <button style="background-color: #79a109;">Questions</button>
 </div>
 
 <div id="wordsSidebar" class="words-sidebar">
-    <span class="close-btn" onclick="closeNav()">&times;</span>
+    <span class="close-btn" onclick="toggleNav()">&times;</span>
     <div class="sidebar-content">
         <h1>Kelimeler</h1>
         <div class="word-item">
             <span class="english-word">turtle</span>
             <span class="word-type">noun.</span>
-            <span class="turkish-translation">deniz kaplumbağası, kaplumbağa</span>
+            <span class="turkish-translation">kaplumbağa, deniz kaplumbağası</span>
         </div>
         <div class="word-item">
-            <span class="english-word">large</span>
+            <span class="english-word">big / large</span>
             <span class="word-type">adj.</span>
             <span class="turkish-translation">büyük, iri</span>
         </div>
         <div class="word-item">
-            <span class="english-word">live</span>
-            <span class="word-type">verb.</span>
-            <span class="turkish-translation">yaşamak</span>
-        </div>
-        <div class="word-item">
-            <span class="english-word">like</span>
-            <span class="word-type">verb.</span>
-            <span class="turkish-translation">hoşlanmak, sevmek</span>
+            <span class="english-word">ocean</span>
+            <span class="word-type">noun.</span>
+            <span class="turkish-translation">okyanus, deniz</span>
         </div>
         <div class="word-item">
             <span class="english-word">warm</span>
             <span class="word-type">adj.</span>
-            <span class="turkish-translation">ılık, sıcacık</span>
+            <span class="turkish-translation">ılık, sıcak</span>
+        </div>
+        <div class="word-item">
+            <span class="english-word">beach</span>
+            <span class="word-type">noun.</span>
+            <span class="turkish-translation">plaj, sahil</span>
+        </div>
+        <div class="word-item">
+            <span class="english-word">swim</span>
+            <span class="word-type">verb.</span>
+            <span class="turkish-translation">yüzmek</span>
+        </div>
+        <div class="word-item">
+            <span class="english-word">fast</span>
+            <span class="word-type">adj.</span>
+            <span class="turkish-translation">hızlı</span>
+        </div>
+        <div class="word-item">
+            <span class="english-word">flipper</span>
+            <span class="word-type">noun.</span>
+            <span class="turkish-translation">yüzgeç (hayvan)</span>
+        </div>
+        <div class="word-item">
+            <span class="english-word">adult</span>
+            <span class="word-type">noun.</span>
+            <span class="turkish-translation">yetişkin</span>
         </div>
         <div class="word-item">
             <span class="english-word">eat</span>
@@ -166,34 +188,19 @@
             <span class="turkish-translation">yemek</span>
         </div>
         <div class="word-item">
-            <span class="english-word">plant</span>
+            <span class="english-word">seaweed / plant</span>
             <span class="word-type">noun.</span>
-            <span class="turkish-translation">bitki</span>
+            <span class="turkish-translation">deniz yosunu, bitki</span>
         </div>
         <div class="word-item">
-            <span class="english-word">grow</span>
-            <span class="word-type">verb.</span>
-            <span class="turkish-translation">büyümek, yetişmek</span>
-        </div>
-        <div class="word-item">
-            <span class="english-word">shell</span>
+            <span class="english-word">danger</span>
             <span class="word-type">noun.</span>
-            <span class="turkish-translation">kabuk</span>
+            <span class="turkish-translation">tehlike</span>
         </div>
         <div class="word-item">
-            <span class="english-word">keep safe</span>
-            <span class="word-type">verb.</span>
-            <span class="turkish-translation">güvende tutmak, -den korumak</span>
-        </div>
-        <div class="word-item">
-            <span class="english-word">strong</span>
-            <span class="word-type">adj.</span>
-            <span class="turkish-translation">güçlü, kuvvetli</span>
-        </div>
-        <div class="word-item">
-            <span class="english-word">flipper</span>
+            <span class="english-word">nest / egg</span>
             <span class="word-type">noun.</span>
-            <span class="turkish-translation">yüzgeç (kaplumbağa)</span>
+            <span class="turkish-translation">yuva / yumurta</span>
         </div>
     </div>
 </div>
@@ -205,37 +212,43 @@
     <h1>Green Turtles</h1>
     <div class="info-bar">
         <span>🕒 1 min</span>
-        <span>W 26 words</span>
+        <span>W 52 words</span>
         <span style="color: #79a109; margin-left: auto;">Okundu olarak işaretle</span>
     </div>
     
     <p>
-        Green <span class="highlight">turtles</span> are very <span class="highlight">large</span>. 
-        They <span class="highlight">live</span> in the sea, and they <span class="highlight">like</span> <span class="highlight">warm</span> water. 
-        These turtles <span class="highlight">eat</span> green <span class="highlight">plants</span> in the sea. 
-        They can <span class="highlight">grow</span> to be 1-1,5 m long.
+        Green <span class="highlight">turtles</span> are <span class="highlight">big</span> animals. They are a kind of sea <span class="highlight">turtle</span>. Their name is "Green Turtle," but they are often brown or yellow. They live in the <span class="highlight">ocean</span>.
     </p>
     <p>
-        The green <span class="highlight">turtle</span> has a hard <span class="highlight">shell</span>. 
-        The <span class="highlight">shell</span> <span class="highlight">keeps</span> the <span class="highlight">turtle</span> <span class="highlight">safe</span> and helps it swim. 
-        It has <span class="highlight">strong</span> <span class="highlight">flippers</span> to move quickly.
+        Green <span class="highlight">turtles</span> <span class="highlight">like</span> <span class="highlight">warm</span> water. They live in <span class="highlight">warm</span> places like near beaches. They <span class="highlight">swim</span> very <span class="highlight">fast</span>. They use their strong legs (<span class="highlight">flippers</span>) to <span class="highlight">swim</span>.
     </p>
-    
-    <div style="height: 200px; background-color: #cce7ff; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; border-radius: 8px;">
-        [Deniz Kaplumbağası Görseli Alanı]
-    </div>
+    <p>
+        A small green <span class="highlight">turtle</span> is very small. But when they are <span class="highlight">adults</span>, they are <span class="highlight">big</span>! Some can be 1 meter long. They can live for a very long time, maybe 80 years!
+    </p>
+    <p>
+        What do they <span class="highlight">eat</span>? When they are young, they <span class="highlight">eat</span> small sea animals. But when they are <span class="highlight">big</span>, they mainly <span class="highlight">eat</span> <span class="highlight">plants</span> in the sea, like seaweed. They are mostly herbivores.
+    </p>
+    <p>
+        Green <span class="highlight">turtles</span> are important. We must help them. Many <span class="highlight">turtles</span> are in <span class="highlight">danger</span>. People must keep the beaches <span class="highlight">clean</span> so <span class="highlight">turtles</span> can make their <span class="highlight">nests</span> and lay their <span class="highlight">eggs</span> there.
+    </p>
 
 </div>
 
 <script>
-    function openNav() {
-        document.getElementById("wordsSidebar").classList.add("open");
-        document.getElementById("mainContent").classList.add("pushed");
-    }
+    // Toggle (Aç/Kapa) Fonksiyonu
+    function toggleNav() {
+        var sidebar = document.getElementById("wordsSidebar");
+        var mainContent = document.getElementById("mainContent");
 
-    function closeNav() {
-        document.getElementById("wordsSidebar").classList.remove("open");
-        document.getElementById("mainContent").classList.remove("pushed");
+        if (sidebar.classList.contains("open")) {
+            // Kapat
+            sidebar.classList.remove("open");
+            mainContent.classList.remove("pushed");
+        } else {
+            // Aç
+            sidebar.classList.add("open");
+            mainContent.classList.add("pushed");
+        }
     }
 </script>
 
