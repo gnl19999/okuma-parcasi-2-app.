@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Turtles Reading</title>
+    <title>Green Turtles Interactive Reading</title>
     <style>
         /* GENEL VE METİN STİLİ */
         body {
@@ -20,7 +20,7 @@
             padding: 20px;
             max-width: 600px;
             margin: 0 auto;
-            transition: margin-right 0.5s; /* Sidebar için geçiş */
+            transition: margin-right 0.5s;
         }
         h1 {
             color: #333;
@@ -40,14 +40,14 @@
 
         /* VURGULU KELİMELER */
         .highlight {
-            color: #79a109; /* Yeşil tonu */
+            color: #79a109;
             font-weight: 500;
         }
         
-        /* CÜMLE VE ÇEVİRİ STİLİ (Basitleştirildi) */
+        /* CÜMLE VE ÇEVİRİ STİLİ */
         .sentence-paragraph {
             position: relative;
-            margin-bottom: 25px; /* Çeviriye yer açmak için ekstra boşluk */
+            margin-bottom: 25px;
             cursor: pointer;
             padding: 5px;
             border-bottom: 1px dotted #ccc;
@@ -76,13 +76,11 @@
         }
         .sentence-paragraph.active .translation-tooltip {
             /* Aktifken göster */
-            max-height: 100px; /* Görünür hale getirmek için yeterince büyük bir değer */
+            max-height: 100px; /* Çeviri içeriğini gösterecek kadar büyük bir değer */
             opacity: 1;
             padding: 8px 10px;
         }
-        /* END YENİ ÇEVİRİ STİLİ */
-
-
+        
         /* KELİMELER PANELİ (SIDEBAR) STİLİ */
         .words-sidebar {
             height: 100%;
@@ -94,7 +92,7 @@
             background-color: #f1f1f1;
             overflow-y: auto;
             padding-top: 20px;
-            transform: translateX(300px); /* GİZLEME YÖNTEMİ */
+            transform: translateX(300px); /* GİZLEME */
             transition: transform 0.5s;
             box-shadow: -5px 0 15px rgba(0,0,0,0.1);
         }
@@ -166,13 +164,13 @@
 <body>
 
 <div class="top-buttons">
-    <button onclick="toggleNav()">W Kelimeler</button>
+    <button id="toggleSidebarButton">W Kelimeler</button>
     <button style="background-color: #5bc0de;">Word Quiz</button>
     <button style="background-color: #79a109;">Questions</button>
 </div>
 
 <div id="wordsSidebar" class="words-sidebar">
-    <span class="close-btn" onclick="toggleNav()">&times;</span>
+    <span class="close-btn" id="closeSidebarButton">&times;</span>
     <div class="sidebar-content">
         <h1>Kelimeler</h1>
         <div class="word-item">
@@ -254,23 +252,23 @@
         <span style="color: #79a109; margin-left: auto;">Okundu olarak işaretle</span>
     </div>
     
-    <p class="sentence-paragraph" onclick="toggleTranslation(this)">
+    <p class="sentence-paragraph">
         Green <span class="highlight">turtles</span> are <span class="highlight">big</span> animals. They are a kind of sea <span class="highlight">turtle</span>. Their name is "Green Turtle," but they are often brown or yellow. They live in the <span class="highlight">ocean</span>.
         <span class="translation-tooltip">Yeşil kaplumbağalar büyük hayvanlardır. Onlar bir tür deniz kaplumbağasıdır. İsimleri "Yeşil Kaplumbağa"dır, ancak genellikle kahverengi veya sarıdırlar. Okyanusta yaşarlar.</span>
     </p>
-    <p class="sentence-paragraph" onclick="toggleTranslation(this)">
+    <p class="sentence-paragraph">
         Green <span class="highlight">turtles</span> <span class="highlight">like</span> <span class="highlight">warm</span> water. They live in <span class="highlight">warm</span> places like near beaches. They <span class="highlight">swim</span> very <span class="highlight">fast</span>. They use their strong legs (<span class="highlight">flippers</span>) to <span class="highlight">swim</span>.
         <span class="translation-tooltip">Yeşil kaplumbağalar ılık suyu sever. Plajlara yakın ılık yerlerde yaşarlar. Çok hızlı yüzerler. Yüzmek için güçlü bacaklarını (yüzgeçlerini) kullanırlar.</span>
     </p>
-    <p class="sentence-paragraph" onclick="toggleTranslation(this)">
+    <p class="sentence-paragraph">
         A small green <span class="highlight">turtle</span> is very small. But when they are <span class="highlight">adults</span>, they are <span class="highlight">big</span>! Some can be 1 meter long. They can live for a very long time, maybe 80 years!
         <span class="translation-tooltip">Küçük bir yeşil kaplumbağa çok küçüktür. Ama yetişkin olduklarında büyüktürler! Bazıları 1 metre uzunluğunda olabilir. Çok uzun yaşayabilirler, belki 80 yıl!</span>
     </p>
-    <p class="sentence-paragraph" onclick="toggleTranslation(this)">
+    <p class="sentence-paragraph">
         What do they <span class="highlight">eat</span>? When they are young, they <span class="highlight">eat</span> small sea animals. But when they are <span class="highlight">big</span>, they mainly <span class="highlight">eat</span> <span class="highlight">plants</span> in the sea, like seaweed. They are mostly herbivores.
         <span class="translation-tooltip">Ne yerler? Genç olduklarında, küçük deniz hayvanlarını yerler. Ama büyüdüklerinde, esas olarak deniz yosunu gibi denizdeki bitkileri yerler. Çoğunlukla otçuldurlar.</span>
     </p>
-    <p class="sentence-paragraph" onclick="toggleTranslation(this)">
+    <p class="sentence-paragraph">
         Green <span class="highlight">turtles</span> are important. We must help them. Many <span class="highlight">turtles</span> are in <span class="highlight">danger</span>. People must keep the beaches <span class="highlight">clean</span> so <span class="highlight">turtles</span> can make their <span class="highlight">nests</span> and lay their <span class="highlight">eggs</span> there.
         <span class="translation-tooltip">Yeşil kaplumbağalar önemlidir. Onlara yardım etmeliyiz. Birçok kaplumbağa tehlikededir. İnsanlar, kaplumbağaların yuvalarını yapıp yumurtlayabilmeleri için plajları temiz tutmalıdır.</span>
     </p>
@@ -278,50 +276,68 @@
 </div>
 
 <script>
-    // 1. Sidebar Toggle (Aç/Kapa) Fonksiyonu
-    function toggleNav() {
-        var sidebar = document.getElementById("wordsSidebar");
-        var mainContent = document.getElementById("mainContent");
-
-        if (sidebar.classList.contains("open")) {
-            sidebar.classList.remove("open");
-            mainContent.classList.remove("pushed");
-        } else {
-            sidebar.classList.add("open");
-            mainContent.classList.add("pushed");
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.getElementById("wordsSidebar");
+        const mainContent = document.getElementById("mainContent");
+        const toggleButton = document.getElementById("toggleSidebarButton");
+        const closeButton = document.getElementById("closeSidebarButton");
+        const sentenceParagraphs = document.querySelectorAll('.sentence-paragraph');
+        
+        // --- Çeviri Fonksiyonları ---
+        
+        function closeAllTranslations() {
+            sentenceParagraphs.forEach(container => {
+                container.classList.remove('active');
+            });
         }
-        // Sidebar açılıp kapanırken açık çevirileri kapat
-        closeAllTranslations(); 
-    }
+        
+        function handleSentenceClick(element) {
+            const isActive = element.classList.contains('active');
+            
+            // Tüm çevirileri kapat
+            closeAllTranslations();
+            
+            // Eğer tıklandığında aktif değilse, şimdi aktif et (toggle)
+            if (!isActive) {
+                element.classList.add('active');
+            }
+        }
 
-    // 2. Cümle Çevirisini Açıp Kapatma Fonksiyonu
-    function toggleTranslation(element) {
-        // Tıklanan cümleyi aç/kapa
-        const isActive = element.classList.toggle('active');
+        // Cümle tıklama olaylarını dinleme
+        sentenceParagraphs.forEach(paragraph => {
+            paragraph.addEventListener('click', function() {
+                handleSentenceClick(this);
+            });
+        });
 
-        // Aynı anda açık olan diğer tüm çevirileri kapat
-        document.querySelectorAll('.sentence-paragraph').forEach(otherElement => {
-            if (otherElement !== element && otherElement.classList.contains('active')) {
-                otherElement.classList.remove('active');
+        // Vücudun herhangi bir yerine tıklanırsa açık olan çevirileri kapat
+        document.body.addEventListener('click', function(e) {
+            // Tıklanan yer bir cümle kapsayıcısı, buton veya sidebar DEĞİLSE, tüm çevirileri kapat.
+            if (!e.target.closest('.sentence-paragraph') && !e.target.closest('.top-buttons') && !e.target.closest('.words-sidebar')) {
+                closeAllTranslations();
             }
         });
         
-        // Bu yapı, başka bir yere tıklama kapatma işlevini daha iyi destekler.
-    }
-
-    // 3. Tüm Çevirileri Kapatma Fonksiyonu (Sidebar açılıp kapanırken kullanılır)
-    function closeAllTranslations() {
-        document.querySelectorAll('.sentence-paragraph').forEach(container => {
-            container.classList.remove('active');
-        });
-    }
-    
-    // 4. Vücudun herhangi bir yerine tıklanırsa açık olan çevirileri kapat
-    document.body.addEventListener('click', function(e) {
-        // Tıklanan yer bir cümle kapsayıcısı, buton veya sidebar DEĞİLSE, tüm çevirileri kapat.
-        if (!e.target.closest('.sentence-paragraph') && !e.target.closest('.top-buttons') && !e.target.closest('.words-sidebar')) {
-            closeAllTranslations();
+        // --- Sidebar Fonksiyonları ---
+        
+        function toggleNav() {
+            if (sidebar.classList.contains("open")) {
+                // Kapatma
+                sidebar.classList.remove("open");
+                mainContent.classList.remove("pushed");
+            } else {
+                // Açma
+                sidebar.classList.add("open");
+                mainContent.classList.add("pushed");
+            }
+            // Sidebar açılıp kapanırken açık çevirileri kapat
+            closeAllTranslations(); 
         }
+
+        // Sidebar buton olaylarını dinleme
+        toggleButton.addEventListener('click', toggleNav);
+        closeButton.addEventListener('click', toggleNav);
+        
     });
 </script>
 
