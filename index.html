@@ -43,35 +43,67 @@
             color: #79a109; /* Yeşil tonu */
             font-weight: 500;
         }
+        
+        /* YENİ: CÜMLE KAPSAYICISI VE ÇEVİRİ İPUCU STİLİ */
+        .sentence-container {
+            position: relative;
+            display: block;  /* Cümlenin tüm satırı kaplamasını sağlar */
+            margin-bottom: 15px;
+            cursor: pointer; /* Tıklanabilir olduğunu gösterir */
+            padding: 5px;
+            border-bottom: 1px dotted #ccc;
+        }
+        .sentence-container:hover {
+            background-color: #f9f9f9;
+        }
+        .translation-tooltip {
+            visibility: hidden;
+            opacity: 0;
+            width: 100%;
+            background-color: #007bff; /* Mavi arka plan */
+            color: white;
+            text-align: left;
+            border-radius: 4px;
+            padding: 8px 10px;
+            position: absolute;
+            z-index: 10;
+            bottom: -30px; /* Çevirinin cümlenin hemen altında görünmesi için */
+            left: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+            font-style: italic;
+        }
+        .sentence-container.active .translation-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        /* END YENİ STİL */
+
 
         /* KELİMELER PANELİ (SIDEBAR) STİLİ */
         .words-sidebar {
             height: 100%;
-            width: 300px; /* Sabit genişlik */
+            width: 300px;
             position: fixed;
             z-index: 20;
             top: 0;
             right: 0;
             background-color: #f1f1f1;
-            overflow-y: auto; /* İçerik taşarsa kaydırma çubuğu */
+            overflow-y: auto;
             padding-top: 20px;
-            
-            /* GİZLEME ve GEÇİŞ: Sorunu çözmesi beklenen kilit kısım */
-            transform: translateX(300px); /* Başlangıçta tam genişliği kadar sağa iterek gizle */
+            transform: translateX(300px); 
             transition: transform 0.5s;
-            
             box-shadow: -5px 0 15px rgba(0,0,0,0.1);
         }
         .words-sidebar.open {
-            transform: translateX(0); /* Açıkken normal konuma çek */
+            transform: translateX(0);
         }
         .sidebar-content {
             padding: 0 20px 20px 20px;
         }
-        
-        /* Ana İçerik Kaydırma (İsteğe bağlı, ancak görseldeki gibi) */
         .main-container.pushed {
-            margin-right: 300px; /* Sidebar açılınca ana içeriği iter */
+            margin-right: 300px; 
         }
 
         /* KELİME LİSTESİ ITEM STİLİ */
@@ -221,39 +253,73 @@
     </div>
     
     <p>
-        Green <span class="highlight">turtles</span> are <span class="highlight">big</span> animals. They are a kind of sea <span class="highlight">turtle</span>. Their name is "Green Turtle," but they are often brown or yellow. They live in the <span class="highlight">ocean</span>.
+        <span class="sentence-container" onclick="toggleTranslation(this)">
+            Green <span class="highlight">turtles</span> are <span class="highlight">big</span> animals. They are a kind of sea <span class="highlight">turtle</span>. Their name is "Green Turtle," but they are often brown or yellow. They live in the <span class="highlight">ocean</span>.
+            <span class="translation-tooltip">Yeşil kaplumbağalar büyük hayvanlardır. Onlar bir tür deniz kaplumbağasıdır. İsimleri "Yeşil Kaplumbağa"dır, ancak genellikle kahverengi veya sarıdırlar. Okyanusta yaşarlar.</span>
+        </span>
     </p>
     <p>
-        Green <span class="highlight">turtles</span> <span class="highlight">like</span> <span class="highlight">warm</span> water. They live in <span class="highlight">warm</span> places like near beaches. They <span class="highlight">swim</span> very <span class="highlight">fast</span>. They use their strong legs (<span class="highlight">flippers</span>) to <span class="highlight">swim</span>.
+        <span class="sentence-container" onclick="toggleTranslation(this)">
+            Green <span class="highlight">turtles</span> <span class="highlight">like</span> <span class="highlight">warm</span> water. They live in <span class="highlight">warm</span> places like near beaches. They <span class="highlight">swim</span> very <span class="highlight">fast</span>. They use their strong legs (<span class="highlight">flippers</span>) to <span class="highlight">swim</span>.
+            <span class="translation-tooltip">Yeşil kaplumbağalar ılık suyu sever. Plajlara yakın ılık yerlerde yaşarlar. Çok hızlı yüzerler. Yüzmek için güçlü bacaklarını (yüzgeçlerini) kullanırlar.</span>
+        </span>
     </p>
     <p>
-        A small green <span class="highlight">turtle</span> is very small. But when they are <span class="highlight">adults</span>, they are <span class="highlight">big</span>! Some can be 1 meter long. They can live for a very long time, maybe 80 years!
+        <span class="sentence-container" onclick="toggleTranslation(this)">
+            A small green <span class="highlight">turtle</span> is very small. But when they are <span class="highlight">adults</span>, they are <span class="highlight">big</span>! Some can be 1 meter long. They can live for a very long time, maybe 80 years!
+            <span class="translation-tooltip">Küçük bir yeşil kaplumbağa çok küçüktür. Ama yetişkin olduklarında büyüktürler! Bazıları 1 metre uzunluğunda olabilir. Çok uzun yaşayabilirler, belki 80 yıl!</span>
+        </span>
     </p>
     <p>
-        What do they <span class="highlight">eat</span>? When they are young, they <span class="highlight">eat</span> small sea animals. But when they are <span class="highlight">big</span>, they mainly <span class="highlight">eat</span> <span class="highlight">plants</span> in the sea, like seaweed. They are mostly herbivores.
+        <span class="sentence-container" onclick="toggleTranslation(this)">
+            What do they <span class="highlight">eat</span>? When they are young, they <span class="highlight">eat</span> small sea animals. But when they are <span class="highlight">big</span>, they mainly <span class="highlight">eat</span> <span class="highlight">plants</span> in the sea, like seaweed. They are mostly herbivores.
+            <span class="translation-tooltip">Ne yerler? Genç olduklarında, küçük deniz hayvanlarını yerler. Ama büyüdüklerinde, esas olarak deniz yosunu gibi denizdeki bitkileri yerler. Çoğunlukla otçuldurlar.</span>
+        </span>
     </p>
     <p>
-        Green <span class="highlight">turtles</span> are important. We must help them. Many <span class="highlight">turtles</span> are in <span class="highlight">danger</span>. People must keep the beaches <span class="highlight">clean</span> so <span class="highlight">turtles</span> can make their <span class="highlight">nests</span> and lay their <span class="highlight">eggs</span> there.
+        <span class="sentence-container" onclick="toggleTranslation(this)">
+            Green <span class="highlight">turtles</span> are important. We must help them. Many <span class="highlight">turtles</span> are in <span class="highlight">danger</span>. People must keep the beaches <span class="highlight">clean</span> so <span class="highlight">turtles</span> can make their <span class="highlight">nests</span> and lay their <span class="highlight">eggs</span> there.
+            <span class="translation-tooltip">Yeşil kaplumbağalar önemlidir. Onlara yardım etmeliyiz. Birçok kaplumbağa tehlikededir. İnsanlar, kaplumbağaların yuvalarını yapıp yumurtlayabilmeleri için plajları temiz tutmalıdır.</span>
+        </span>
     </p>
 
 </div>
 
 <script>
-    // Toggle (Aç/Kapa) Fonksiyonu
+    // 1. Sidebar Toggle (Aç/Kapa) Fonksiyonu
     function toggleNav() {
         var sidebar = document.getElementById("wordsSidebar");
         var mainContent = document.getElementById("mainContent");
 
-        // 'open' sınıfı varsa kapat, yoksa aç
         if (sidebar.classList.contains("open")) {
-            // Kapatma
             sidebar.classList.remove("open");
             mainContent.classList.remove("pushed");
         } else {
-            // Açma
             sidebar.classList.add("open");
             mainContent.classList.add("pushed");
         }
+        // Sidebar açılıp kapanırken açık çevirileri kapat
+        closeAllTranslations(); 
+    }
+
+    // 2. Cümle Çevirisini Açıp Kapatma Fonksiyonu
+    function toggleTranslation(element) {
+        // Tıklanan cümleyi aç/kapa
+        element.classList.toggle('active');
+
+        // Aynı anda açık olan diğer tüm çevirileri kapat
+        document.querySelectorAll('.sentence-container').forEach(otherElement => {
+            if (otherElement !== element && otherElement.classList.contains('active')) {
+                otherElement.classList.remove('active');
+            }
+        });
+    }
+
+    // 3. Tüm Çevirileri Kapatma Fonksiyonu (Sidebar açılıp kapanırken kullanılır)
+    function closeAllTranslations() {
+        document.querySelectorAll('.sentence-container').forEach(container => {
+            container.classList.remove('active');
+        });
     }
 </script>
 
