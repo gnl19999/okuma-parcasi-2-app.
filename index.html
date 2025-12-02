@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Turtles Interactive Reading</title>
+    <title>Green Turtles Interactive Reading & Quiz</title>
     <style>
         /* GENEL VE METİN STİLİ */
         body {
@@ -47,68 +47,14 @@
             border-radius: 5px;
         }
 
-        /* VURGULU KELİMELER */
-        .highlight {
-            color: #79a109; 
-            font-weight: 500;
-        }
-        
-        /* GÖRSEL STİLİ */
-        .article-image {
-            width: 100%;
-            height: auto;
-            max-height: 250px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        /* CÜMLE VE ÇEVİRİ STİLİ */
-        .sentence-paragraph {
-            position: relative;
-            margin-bottom: 20px;
-            cursor: pointer;
-            padding: 5px 0;
-            border-bottom: 1px dotted #ccc; 
-        }
-        .sentence-paragraph:hover {
-            background-color: #f9f9f9;
-        }
-        .english-text {
-            display: block; 
-            font-size: 16px;
-        }
-        
-        /* Çeviri Arka Planı Yeşil */
-        .translation-tooltip {
-            /* Başlangıçta gizli */
-            visibility: hidden;
-            opacity: 0;
-            height: 0;
-            padding: 0 10px;
-            
-            /* Animasyon için geçiş */
-            transition: opacity 0.3s, height 0.3s, padding 0.3s, visibility 0.3s;
-            
-            /* Görünüm stili */
-            width: 95%;
-            background-color: #5cb85c; /* YEŞİL */
-            color: white;
-            text-align: left;
-            border-radius: 4px;
-            margin-top: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            font-size: 14px;
-            font-style: italic;
-            overflow: hidden;
-        }
-        .sentence-paragraph.active .translation-tooltip {
-            /* Aktifken göster */
-            visibility: visible;
-            opacity: 1;
-            height: auto; 
-            padding: 8px 10px;
-        }
+        /* VURGULU KELİMELER ve CÜMLE/ÇEVİRİ STİLİ (Önceki koddan) */
+        .highlight { color: #79a109; font-weight: 500; }
+        .article-image { width: 100%; height: auto; max-height: 250px; object-fit: cover; border-radius: 8px; margin-bottom: 20px; }
+        .sentence-paragraph { position: relative; margin-bottom: 20px; cursor: pointer; padding: 5px 0; border-bottom: 1px dotted #ccc; }
+        .sentence-paragraph:hover { background-color: #f9f9f9; }
+        .english-text { display: block; font-size: 16px; }
+        .translation-tooltip { visibility: hidden; opacity: 0; height: 0; padding: 0 10px; transition: opacity 0.3s, height 0.3s, padding 0.3s, visibility 0.3s; width: 95%; background-color: #5cb85c; color: white; text-align: left; border-radius: 4px; margin-top: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); font-size: 14px; font-style: italic; overflow: hidden; }
+        .sentence-paragraph.active .translation-tooltip { visibility: visible; opacity: 1; height: auto; padding: 8px 10px; }
         
         /* KELİMELER PANELİ (SIDEBAR) STİLİ */
         .words-sidebar {
@@ -134,31 +80,10 @@
         .main-container.pushed {
             margin-right: 300px; 
         }
-
-        /* KELİME LİSTESİ ITEM STİLİ */
-        .word-item {
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #eee; 
-        }
-        .english-word {
-            font-weight: bold;
-            color: #333;
-            line-height: 1.2;
-            display: block;
-        }
-        .word-type {
-            font-style: italic;
-            color: #79a109;
-            font-size: 13px;
-            margin-right: 5px;
-        }
-        .turkish-translation {
-            color: #666;
-            font-size: 14px;
-            display: block;
-            margin-left: 0; 
-        }
+        .word-item { margin-bottom: 15px; padding-bottom: 5px; border-bottom: 1px solid #eee; }
+        .english-word { font-weight: bold; color: #333; line-height: 1.2; display: block; }
+        .word-type { font-style: italic; color: #79a109; font-size: 13px; margin-right: 5px; }
+        .turkish-translation { color: #666; font-size: 14px; display: block; margin-left: 0; }
 
         /* BUTONLAR VE BAŞLIK */
         .top-buttons {
@@ -183,17 +108,124 @@
             border-radius: 20px; 
             margin-left: 10px;
         }
-        #toggleSidebarButton {
-            background-color: #f1f1f1; 
+        #toggleSidebarButton { background-color: #f1f1f1; color: #333; }
+        #toggleQuizButton { background-color: #5bc0de; } /* Word Quiz butonu */
+        .close-btn { position: absolute; top: 15px; left: 20px; font-size: 30px; color: #aaa; cursor: pointer; }
+
+        /* YENİ QUIZ STİLLERİ */
+        .quiz-container {
+            padding: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+            display: none; /* Başlangıçta gizli */
+            padding-top: 70px;
+        }
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            color: #666;
+        }
+        .quiz-word-box {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 30px;
             color: #333;
         }
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            font-size: 30px; 
-            color: #aaa;
+        .quiz-word-type {
+            font-style: italic;
+            color: #79a109;
+            font-size: 18px;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .option-button {
+            width: 100%;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            background-color: #f9f9f9;
+            text-align: center;
             cursor: pointer;
+            font-size: 18px;
+            font-weight: 500;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        .option-button:hover:not([disabled]) {
+            background-color: #e9e9e9;
+        }
+        .option-button[disabled] {
+            cursor: default;
+        }
+
+        /* Doğru ve Yanlış Cevap Stilleri */
+        .correct {
+            background-color: #79a109;
+            color: white;
+            border-color: #79a109;
+        }
+        .wrong {
+            background-color: #ff4d4d;
+            color: white;
+            border-color: #ff4d4d;
+        }
+        /* Yeşil Tik işareti stili (Gizli, sadece doğru cevapta görünür) */
+        .check-mark {
+            font-size: 40px;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            z-index: 10;
+        }
+        .correct .check-mark {
+            display: block; 
+        }
+        
+        /* Quiz İlerleme Çubuğu */
+        .progress-bar-container {
+            height: 8px;
+            background-color: #eee;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #79a109;
+            transition: width 0.3s;
+        }
+        
+        /* Quiz Sonuç Ekranı */
+        .quiz-results {
+            display: none;
+            text-align: center;
+        }
+        .quiz-results h2 {
+            color: #79a109;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        .quiz-results p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .quiz-results button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 20px;
         }
     </style>
 </head>
@@ -201,7 +233,7 @@
 
 <div class="top-buttons">
     <button id="toggleSidebarButton">W Kelimeler</button>
-    <button style="background-color: #5bc0de;">Word Quiz</button>
+    <button id="toggleQuizButton" style="background-color: #5bc0de;">Word Quiz</button>
     <button style="background-color: #79a109;">Questions</button>
 </div>
 
@@ -275,16 +307,87 @@
 
 </div>
 
+<div id="quizContainer" class="quiz-container">
+    <div class="quiz-header">
+        <span id="quizBackButton" style="cursor: pointer; font-size: 24px;">&times;</span>
+        <span id="quizProgress">1/26</span>
+    </div>
+    
+    <div class="progress-bar-container">
+        <div id="progressBar" class="progress-bar"></div>
+    </div>
+    
+    <div id="questionArea">
+        <span class="quiz-word-type" id="currentWordType"></span>
+        <div class="quiz-word-box" id="currentWord"></div>
+        <div id="optionsContainer">
+            </div>
+    </div>
+    
+    <div id="resultsScreen" class="quiz-results">
+        <h2>Tebrikler!</h2>
+        <p>Testi bitirdiniz. <span id="correctCount">0</span> doğru cevabınız var.</p>
+        <button id="restartQuizButton">Tekrar Başla</button>
+    </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const sidebar = document.getElementById("wordsSidebar");
         const mainContent = document.getElementById("mainContent");
-        const toggleButton = document.getElementById("toggleSidebarButton");
-        const closeButton = document.getElementById("closeSidebarButton");
+        const quizContainer = document.getElementById("quizContainer");
+        const toggleSidebarButton = document.getElementById("toggleSidebarButton");
+        const closeSidebarButton = document.getElementById("closeSidebarButton");
+        const toggleQuizButton = document.getElementById("toggleQuizButton");
+        const quizBackButton = document.getElementById("quizBackButton");
         const sentenceParagraphs = document.querySelectorAll('.sentence-paragraph');
         
-        // --- Çeviri Fonksiyonları ---
-        
+        // Quiz Elementleri
+        const quizProgress = document.getElementById('quizProgress');
+        const progressBar = document.getElementById('progressBar');
+        const currentWord = document.getElementById('currentWord');
+        const currentWordType = document.getElementById('currentWordType');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const questionArea = document.getElementById('questionArea');
+        const resultsScreen = document.getElementById('resultsScreen');
+        const correctCountSpan = document.getElementById('correctCount');
+        const restartQuizButton = document.getElementById('restartQuizButton');
+
+        // 26 Kelimelik Quiz Verisi (Sidebar'daki kelimeleri kullanır)
+        const quizData = [
+            { word: "turtle", type: "noun.", correct: "deniz kaplumbağası, kaplumbağa", options: ["temel, esas, ana", "yapamayacak durumda", "minik, ufacık", "deniz kaplumbağası, kaplumbağa"] },
+            { word: "large / big", type: "adj.", correct: "büyük, iri", options: ["tehlike", "büyük, iri", "çoğunlukla, esas olarak", "yüzgeç (hayvan)"] },
+            { word: "live", type: "verb.", correct: "yaşamak", options: ["yüzmek", "yaşamak", "temiz", "yuva"] },
+            { word: "ocean / sea", type: "noun.", correct: "okyanus / deniz", options: ["okyanus / deniz", "yumurta", "bacak", "uzun"] },
+            { word: "like", type: "verb.", correct: "hoşlanmak, sevmek", options: ["güçlü, sağlam", "hızlı", "hoşlanmak, sevmek", "yetişkin"] },
+            { word: "warm", type: "adj.", correct: "ılık, sıcacık", options: ["bitki / deniz yosunu", "ılık, sıcacık", "plaj, sahil", "genç, yavru"] },
+            { word: "beach", type: "noun.", correct: "plaj, sahil", options: ["plaj, sahil", "yemek", "korumak", "büyük, iri"] },
+            { word: "swim", type: "verb.", correct: "yüzmek", options: ["yüzmek", "yaşamak", "hızlı", "kahverengi / sarı"] },
+            { word: "fast", type: "adj.", correct: "hızlı", options: ["uzun", "hızlı", "önemli", "temiz"] },
+            { word: "flipper", type: "noun.", correct: "yüzgeç (hayvan)", options: ["yüzgeç (hayvan)", "hayvan", "tehlike", "deniz kaplumbağası"] },
+            { word: "adult", type: "noun.", correct: "yetişkin", options: ["yetişkin", "yuva", "yumurta", "tür, çeşit"] },
+            { word: "eat", type: "verb.", correct: "yemek", options: ["yemek", "yüzmek", "yaşamak", "korumak"] },
+            { word: "plant / seaweed", type: "noun.", correct: "bitki / deniz yosunu", options: ["bitki / deniz yosunu", "okyanus / deniz", "plaj, sahil", "bacak"] },
+            { word: "danger", type: "noun.", correct: "tehlike", options: ["tehlike", "güçlü, sağlam", "hızlı", "uzun"] },
+            { word: "nest", type: "noun.", correct: "yuva", options: ["yuva", "yumurta", "bacak", "genç, yavru"] },
+            { word: "egg", type: "noun.", correct: "yumurta", options: ["yetişkin", "yumurta", "büyük, iri", "hayvan"] },
+            { word: "clean", type: "adj.", correct: "temiz", options: ["ılık, sıcacık", "temiz", "önemli", "kahverengi / sarı"] },
+            { word: "keep safe", type: "verb.", correct: "güvende tutmak, korumak", options: ["güvende tutmak, korumak", "hoşlanmak, sevmek", "yüzmek", "yemek"] },
+            { word: "animal", type: "noun.", correct: "hayvan", options: ["hayvan", "tür, çeşit", "bacak", "yumurta"] },
+            { word: "brown / yellow", type: "adj.", correct: "kahverengi / sarı", options: ["uzun", "kahverengi / sarı", "temiz", "hızlı"] },
+            { word: "kind", type: "noun.", correct: "tür, çeşit", options: ["yuva", "tür, çeşit", "yüzgeç (hayvan)", "deniz kaplumbağası"] },
+            { word: "strong", type: "adj.", correct: "güçlü, sağlam", options: ["güçlü, sağlam", "önemli", "genç, yavru", "ılık, sıcacık"] },
+            { word: "leg", type: "noun.", correct: "bacak", options: ["okyanus / deniz", "bacak", "deniz kaplumbağası", "yüzgeç (hayvan)"] },
+            { word: "long", type: "adj.", correct: "uzun", options: ["uzun", "büyük, iri", "ılık, sıcacık", "hızlı"] },
+            { word: "young", type: "adj.", correct: "genç, yavru", options: ["yetişkin", "genç, yavru", "kahverengi / sarı", "tehlike"] },
+            { word: "important", type: "adj.", correct: "önemli", options: ["önemli", "güçlü, sağlam", "temiz", "uzun"] }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        // --- Sayfa Geçiş Fonksiyonları ---
+
         function closeAllTranslations() {
             sentenceParagraphs.forEach(container => {
                 container.classList.remove('active');
@@ -293,54 +396,173 @@
         
         function handleSentenceClick(element) {
             const isActive = element.classList.contains('active');
-            
-            // Tüm çevirileri kapat
             closeAllTranslations();
-            
-            // Eğer tıklandığında aktif değilse, şimdi aktif et
             if (!isActive) {
                 element.classList.add('active');
             }
         }
 
-        // Cümle tıklama olaylarını dinleme
+        function showSection(sectionId) {
+            mainContent.style.display = 'none';
+            quizContainer.style.display = 'none';
+            
+            if (sectionId === 'main') {
+                mainContent.style.display = 'block';
+                sidebar.classList.remove("open");
+                mainContent.classList.remove("pushed");
+                closeAllTranslations();
+            } else if (sectionId === 'quiz') {
+                quizContainer.style.display = 'block';
+                sidebar.classList.remove("open");
+                mainContent.classList.remove("pushed");
+                closeAllTranslations();
+                // Testi başlat/görüntüle
+                if (currentQuestionIndex === quizData.length) {
+                    showResults(); // Eğer test bittiyse sonucu göster
+                } else {
+                    displayQuestion();
+                }
+            }
+        }
+
+        // --- Quiz Fonksiyonları ---
+        
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function displayQuestion() {
+            questionArea.style.display = 'block';
+            resultsScreen.style.display = 'none';
+
+            if (currentQuestionIndex >= quizData.length) {
+                showResults();
+                return;
+            }
+
+            const currentQ = quizData[currentQuestionIndex];
+            
+            // Başlık, kelime ve ilerleme çubuğunu güncelle
+            currentWordType.textContent = currentQ.type;
+            currentWord.textContent = currentQ.word;
+            quizProgress.textContent = `${currentQuestionIndex + 1}/${quizData.length}`;
+            const progressPercentage = (currentQuestionIndex / quizData.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+
+            // Seçenekleri oluştur
+            optionsContainer.innerHTML = '';
+            // Seçenekleri karıştır
+            const shuffledOptions = shuffleArray([...currentQ.options]);
+
+            shuffledOptions.forEach(option => {
+                const button = document.createElement('button');
+                button.classList.add('option-button');
+                button.textContent = option;
+                button.setAttribute('data-answer', option);
+                button.onclick = () => checkAnswer(button, option, currentQ.correct);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedButton, selectedAnswer, correctAnswer) {
+            // Tüm butonları devre dışı bırak
+            Array.from(optionsContainer.children).forEach(btn => btn.disabled = true);
+            
+            // Doğru ve Yanlış renklerini ayarla
+            if (selectedAnswer === correctAnswer) {
+                selectedButton.classList.add('correct');
+                score++;
+                // Yeşil tik işaretini ekle
+                const checkMark = document.createElement('span');
+                checkMark.classList.add('check-mark');
+                checkMark.textContent = '✓';
+                selectedButton.appendChild(checkMark);
+
+            } else {
+                selectedButton.classList.add('wrong');
+                // Doğru cevabı bul ve vurgula (Yanlış seçse bile doğruyu göster)
+                Array.from(optionsContainer.children).find(btn => btn.getAttribute('data-answer') === correctAnswer).classList.add('correct');
+            }
+
+            // Bir saniye sonra sonraki soruya geç
+            setTimeout(() => {
+                currentQuestionIndex++;
+                displayQuestion();
+            }, 1000);
+        }
+        
+        function showResults() {
+            questionArea.style.display = 'none';
+            resultsScreen.style.display = 'block';
+            correctCountSpan.textContent = score;
+            // İlerleme çubuğunu %100 yap
+            progressBar.style.width = '100%'; 
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            shuffleArray(quizData); // Testi her başlattığında soruları karıştır
+            displayQuestion();
+        }
+
+
+        // --- Sidebar Fonksiyonları (Önceki koddan) ---
+        
+        function toggleNav() {
+            if (sidebar.classList.contains("open")) {
+                sidebar.classList.remove("open");
+                mainContent.classList.remove("pushed");
+            } else {
+                sidebar.classList.add("open");
+                mainContent.classList.add("pushed");
+            }
+            closeAllTranslations(); 
+        }
+
+
+        // --- Olay Dinleyicileri ---
+        
+        // Cümle tıklama olayları
         sentenceParagraphs.forEach(paragraph => {
             paragraph.addEventListener('click', function(event) {
-                // Tıklanan yerin doğrudan cümle paragrafı olduğundan emin olun (highlighted kelimelere tıklanıp tüm çevirinin kapanması engellenir)
                 if (event.target.closest('.sentence-paragraph') === this) {
                     handleSentenceClick(this);
                 }
             });
         });
 
-        // Vücudun herhangi bir yerine tıklanırsa açık olan çevirileri kapat
+        // Genel tıklama ile çeviriyi kapatma
         document.body.addEventListener('click', function(e) {
-            // Tıklanan yer bir cümle kapsayıcısı, buton veya sidebar DEĞİLSE, tüm çevirileri kapat.
-            if (!e.target.closest('.sentence-paragraph') && !e.target.closest('.top-buttons') && !e.target.closest('.words-sidebar')) {
+            if (!e.target.closest('.sentence-paragraph') && !e.target.closest('.top-buttons') && !e.target.closest('.words-sidebar') && !e.target.closest('.quiz-container')) {
                 closeAllTranslations();
             }
         });
-        
-        // --- Sidebar Fonksiyonları ---
-        
-        function toggleNav() {
-            if (sidebar.classList.contains("open")) {
-                // Kapatma
-                sidebar.classList.remove("open");
-                mainContent.classList.remove("pushed");
-            } else {
-                // Açma
-                sidebar.classList.add("open");
-                mainContent.classList.add("pushed");
-            }
-            // Sidebar açılıp kapanırken açık çevirileri kapat
-            closeAllTranslations(); 
-        }
 
-        // Sidebar buton olaylarını dinleme
-        toggleButton.addEventListener('click', toggleNav);
-        closeButton.addEventListener('click', toggleNav);
+        // Sidebar olayları
+        toggleSidebarButton.addEventListener('click', toggleNav);
+        closeSidebarButton.addEventListener('click', toggleNav);
         
+        // Quiz olayları
+        toggleQuizButton.addEventListener('click', () => {
+            // Word Quiz'e basılınca Quiz bölümünü göster
+            showSection('quiz');
+            restartQuiz(); // Testi sıfırla ve başlat
+        });
+        
+        quizBackButton.addEventListener('click', () => {
+            // Kapatma işaretine basılınca ana içeriğe dön
+            showSection('main');
+        });
+        
+        restartQuizButton.addEventListener('click', restartQuiz);
+
+        // Başlangıçta ana içeriği göster
+        showSection('main');
     });
 </script>
 
