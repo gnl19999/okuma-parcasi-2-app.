@@ -47,25 +47,29 @@
         /* KELİMELER PANELİ (SIDEBAR) STİLİ */
         .words-sidebar {
             height: 100%;
-            width: 0; /* Başlangıçta gizli */
+            width: 300px; /* Sabit genişlik */
             position: fixed;
             z-index: 20;
             top: 0;
             right: 0;
             background-color: #f1f1f1;
-            overflow-x: hidden;
+            overflow-y: auto; /* İçerik taşarsa kaydırma çubuğu */
             padding-top: 20px;
-            transition: 0.5s;
+            
+            /* GİZLEME ve GEÇİŞ: Sorunu çözmesi beklenen kilit kısım */
+            transform: translateX(300px); /* Başlangıçta tam genişliği kadar sağa iterek gizle */
+            transition: transform 0.5s;
+            
             box-shadow: -5px 0 15px rgba(0,0,0,0.1);
         }
         .words-sidebar.open {
-            width: 300px; /* Açıkken genişlik */
-            padding-left: 10px;
-            padding-right: 10px;
+            transform: translateX(0); /* Açıkken normal konuma çek */
         }
         .sidebar-content {
-            padding: 0 10px 20px 10px;
+            padding: 0 20px 20px 20px;
         }
+        
+        /* Ana İçerik Kaydırma (İsteğe bağlı, ancak görseldeki gibi) */
         .main-container.pushed {
             margin-right: 300px; /* Sidebar açılınca ana içeriği iter */
         }
