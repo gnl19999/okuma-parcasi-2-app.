@@ -44,39 +44,41 @@
             font-weight: 500;
         }
         
-        /* CÜMLE KAPSAYICISI VE ÇEVİRİ İPUCU STİLİ */
-        .sentence-container {
+        /* CÜMLE VE ÇEVİRİ STİLİ (Basitleştirildi) */
+        .sentence-paragraph {
             position: relative;
-            display: block;
-            margin-bottom: 15px;
-            cursor: pointer; 
+            margin-bottom: 25px; /* Çeviriye yer açmak için ekstra boşluk */
+            cursor: pointer;
             padding: 5px;
             border-bottom: 1px dotted #ccc;
         }
-        .sentence-container:hover {
+        .sentence-paragraph:hover {
             background-color: #f9f9f9;
         }
         .translation-tooltip {
-            visibility: hidden;
+            /* Başlangıçta gizli */
+            max-height: 0;
             opacity: 0;
-            width: 95%; /* Genişlik ayarı */
-            background-color: #007bff; /* Mavi arka plan */
+            padding: 0 10px;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+            
+            /* Görünüm stili */
+            width: 95%;
+            background-color: #007bff; 
             color: white;
             text-align: left;
             border-radius: 4px;
-            padding: 8px 10px;
-            position: absolute;
-            z-index: 10;
-            top: 100%; /* Cümlenin hemen altına inmesi için */
-            left: 5px;
-            transition: opacity 0.3s, visibility 0.3s;
+            margin-top: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             font-size: 14px;
             font-style: italic;
+            overflow: hidden;
         }
-        .sentence-container.active .translation-tooltip {
-            visibility: visible;
+        .sentence-paragraph.active .translation-tooltip {
+            /* Aktifken göster */
+            max-height: 100px; /* Görünür hale getirmek için yeterince büyük bir değer */
             opacity: 1;
+            padding: 8px 10px;
         }
         /* END YENİ ÇEVİRİ STİLİ */
 
@@ -252,35 +254,25 @@
         <span style="color: #79a109; margin-left: auto;">Okundu olarak işaretle</span>
     </div>
     
-    <p>
-        <span class="sentence-container" onclick="toggleTranslation(this)">
-            Green <span class="highlight">turtles</span> are <span class="highlight">big</span> animals. They are a kind of sea <span class="highlight">turtle</span>. Their name is "Green Turtle," but they are often brown or yellow. They live in the <span class="highlight">ocean</span>.
-            <span class="translation-tooltip">Yeşil kaplumbağalar büyük hayvanlardır. Onlar bir tür deniz kaplumbağasıdır. İsimleri "Yeşil Kaplumbağa"dır, ancak genellikle kahverengi veya sarıdırlar. Okyanusta yaşarlar.</span>
-        </span>
+    <p class="sentence-paragraph" onclick="toggleTranslation(this)">
+        Green <span class="highlight">turtles</span> are <span class="highlight">big</span> animals. They are a kind of sea <span class="highlight">turtle</span>. Their name is "Green Turtle," but they are often brown or yellow. They live in the <span class="highlight">ocean</span>.
+        <span class="translation-tooltip">Yeşil kaplumbağalar büyük hayvanlardır. Onlar bir tür deniz kaplumbağasıdır. İsimleri "Yeşil Kaplumbağa"dır, ancak genellikle kahverengi veya sarıdırlar. Okyanusta yaşarlar.</span>
     </p>
-    <p>
-        <span class="sentence-container" onclick="toggleTranslation(this)">
-            Green <span class="highlight">turtles</span> <span class="highlight">like</span> <span class="highlight">warm</span> water. They live in <span class="highlight">warm</span> places like near beaches. They <span class="highlight">swim</span> very <span class="highlight">fast</span>. They use their strong legs (<span class="highlight">flippers</span>) to <span class="highlight">swim</span>.
-            <span class="translation-tooltip">Yeşil kaplumbağalar ılık suyu sever. Plajlara yakın ılık yerlerde yaşarlar. Çok hızlı yüzerler. Yüzmek için güçlü bacaklarını (yüzgeçlerini) kullanırlar.</span>
-        </span>
+    <p class="sentence-paragraph" onclick="toggleTranslation(this)">
+        Green <span class="highlight">turtles</span> <span class="highlight">like</span> <span class="highlight">warm</span> water. They live in <span class="highlight">warm</span> places like near beaches. They <span class="highlight">swim</span> very <span class="highlight">fast</span>. They use their strong legs (<span class="highlight">flippers</span>) to <span class="highlight">swim</span>.
+        <span class="translation-tooltip">Yeşil kaplumbağalar ılık suyu sever. Plajlara yakın ılık yerlerde yaşarlar. Çok hızlı yüzerler. Yüzmek için güçlü bacaklarını (yüzgeçlerini) kullanırlar.</span>
     </p>
-    <p>
-        <span class="sentence-container" onclick="toggleTranslation(this)">
-            A small green <span class="highlight">turtle</span> is very small. But when they are <span class="highlight">adults</span>, they are <span class="highlight">big</span>! Some can be 1 meter long. They can live for a very long time, maybe 80 years!
-            <span class="translation-tooltip">Küçük bir yeşil kaplumbağa çok küçüktür. Ama yetişkin olduklarında büyüktürler! Bazıları 1 metre uzunluğunda olabilir. Çok uzun yaşayabilirler, belki 80 yıl!</span>
-        </span>
+    <p class="sentence-paragraph" onclick="toggleTranslation(this)">
+        A small green <span class="highlight">turtle</span> is very small. But when they are <span class="highlight">adults</span>, they are <span class="highlight">big</span>! Some can be 1 meter long. They can live for a very long time, maybe 80 years!
+        <span class="translation-tooltip">Küçük bir yeşil kaplumbağa çok küçüktür. Ama yetişkin olduklarında büyüktürler! Bazıları 1 metre uzunluğunda olabilir. Çok uzun yaşayabilirler, belki 80 yıl!</span>
     </p>
-    <p>
-        <span class="sentence-container" onclick="toggleTranslation(this)">
-            What do they <span class="highlight">eat</span>? When they are young, they <span class="highlight">eat</span> small sea animals. But when they are <span class="highlight">big</span>, they mainly <span class="highlight">eat</span> <span class="highlight">plants</span> in the sea, like seaweed. They are mostly herbivores.
-            <span class="translation-tooltip">Ne yerler? Genç olduklarında, küçük deniz hayvanlarını yerler. Ama büyüdüklerinde, esas olarak deniz yosunu gibi denizdeki bitkileri yerler. Çoğunlukla otçuldurlar.</span>
-        </span>
+    <p class="sentence-paragraph" onclick="toggleTranslation(this)">
+        What do they <span class="highlight">eat</span>? When they are young, they <span class="highlight">eat</span> small sea animals. But when they are <span class="highlight">big</span>, they mainly <span class="highlight">eat</span> <span class="highlight">plants</span> in the sea, like seaweed. They are mostly herbivores.
+        <span class="translation-tooltip">Ne yerler? Genç olduklarında, küçük deniz hayvanlarını yerler. Ama büyüdüklerinde, esas olarak deniz yosunu gibi denizdeki bitkileri yerler. Çoğunlukla otçuldurlar.</span>
     </p>
-    <p>
-        <span class="sentence-container" onclick="toggleTranslation(this)">
-            Green <span class="highlight">turtles</span> are important. We must help them. Many <span class="highlight">turtles</span> are in <span class="highlight">danger</span>. People must keep the beaches <span class="highlight">clean</span> so <span class="highlight">turtles</span> can make their <span class="highlight">nests</span> and lay their <span class="highlight">eggs</span> there.
-            <span class="translation-tooltip">Yeşil kaplumbağalar önemlidir. Onlara yardım etmeliyiz. Birçok kaplumbağa tehlikededir. İnsanlar, kaplumbağaların yuvalarını yapıp yumurtlayabilmeleri için plajları temiz tutmalıdır.</span>
-        </span>
+    <p class="sentence-paragraph" onclick="toggleTranslation(this)">
+        Green <span class="highlight">turtles</span> are important. We must help them. Many <span class="highlight">turtles</span> are in <span class="highlight">danger</span>. People must keep the beaches <span class="highlight">clean</span> so <span class="highlight">turtles</span> can make their <span class="highlight">nests</span> and lay their <span class="highlight">eggs</span> there.
+        <span class="translation-tooltip">Yeşil kaplumbağalar önemlidir. Onlara yardım etmeliyiz. Birçok kaplumbağa tehlikededir. İnsanlar, kaplumbağaların yuvalarını yapıp yumurtlayabilmeleri için plajları temiz tutmalıdır.</span>
     </p>
 
 </div>
@@ -305,27 +297,29 @@
     // 2. Cümle Çevirisini Açıp Kapatma Fonksiyonu
     function toggleTranslation(element) {
         // Tıklanan cümleyi aç/kapa
-        element.classList.toggle('active');
+        const isActive = element.classList.toggle('active');
 
         // Aynı anda açık olan diğer tüm çevirileri kapat
-        document.querySelectorAll('.sentence-container').forEach(otherElement => {
+        document.querySelectorAll('.sentence-paragraph').forEach(otherElement => {
             if (otherElement !== element && otherElement.classList.contains('active')) {
                 otherElement.classList.remove('active');
             }
         });
+        
+        // Bu yapı, başka bir yere tıklama kapatma işlevini daha iyi destekler.
     }
 
     // 3. Tüm Çevirileri Kapatma Fonksiyonu (Sidebar açılıp kapanırken kullanılır)
     function closeAllTranslations() {
-        document.querySelectorAll('.sentence-container').forEach(container => {
+        document.querySelectorAll('.sentence-paragraph').forEach(container => {
             container.classList.remove('active');
         });
     }
     
     // 4. Vücudun herhangi bir yerine tıklanırsa açık olan çevirileri kapat
     document.body.addEventListener('click', function(e) {
-        // Tıklanan yer bir cümle kapsayıcısı veya buton/sidebar değilse kapat
-        if (!e.target.closest('.sentence-container') && !e.target.closest('.top-buttons') && !e.target.closest('.words-sidebar')) {
+        // Tıklanan yer bir cümle kapsayıcısı, buton veya sidebar DEĞİLSE, tüm çevirileri kapat.
+        if (!e.target.closest('.sentence-paragraph') && !e.target.closest('.top-buttons') && !e.target.closest('.words-sidebar')) {
             closeAllTranslations();
         }
     });
