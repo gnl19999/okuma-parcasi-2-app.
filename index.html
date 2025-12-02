@@ -35,16 +35,16 @@
         .sentence-paragraph {
             position: relative;
             /* Cümleleri daha sıkı tutmak için margin-bottom azaltıldı */
-            margin-bottom: 5px; 
+            margin-bottom: 5px;
             cursor: pointer;
             padding: 5px 0;
             /* Cümleleri ayırmak için hafif çizgi */
-            border-bottom: 1px dotted #ccc; 
+            border-bottom: 1px dotted #ccc;
             transition: background-color 0.2s;
         }
         .sentence-paragraph:hover { background-color: #f9f9f9; }
         .english-text { display: block; font-size: 16px; }
-        
+
         /* Çeviri Arka Planı Yeşil */
         .translation-tooltip {
             /* Başlangıçta gizli ve sıfır yükseklikte */
@@ -52,12 +52,12 @@
             opacity: 0;
             height: 0;
             padding: 0 10px;
-            
+
             /* Animasyon için geçiş */
             transition: opacity 0.3s, height 0.3s, padding 0.3s, visibility 0.3s;
-            
+
             width: 95%;
-            background-color: #5cb85c; 
+            background-color: #5cb85c;
             color: white;
             text-align: left;
             border-radius: 4px;
@@ -72,12 +72,12 @@
         .sentence-paragraph.active .translation-tooltip {
             visibility: visible;
             opacity: 1;
-            height: auto; 
+            height: auto;
             padding: 8px 10px;
             /* Çeviri açıldığında paragrafın altındaki boşluğu artırmak için */
-            margin-bottom: 15px; 
+            margin-bottom: 15px;
         }
-        
+
         /* SIDEBAR VE QUIZ STİLLERİ (Korumaya alındı) */
         .words-sidebar { height: 100%; width: 300px; position: fixed; z-index: 20; top: 0; right: 0; background-color: white; overflow-y: auto; padding-top: 20px; transform: translateX(300px); transition: transform 0.5s; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
         .words-sidebar.open { transform: translateX(0); }
@@ -90,10 +90,12 @@
         .top-buttons { position: fixed; top: 0; right: 0; left: 0; z-index: 30; display: flex; justify-content: flex-end; padding: 10px 10px 5px 10px; background-color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .top-buttons button { background-color: #007bff; color: white; border: none; padding: 8px 15px; font-size: 16px; cursor: pointer; border-radius: 20px; margin-left: 10px; }
         #toggleSidebarButton { background-color: #f1f1f1; color: #333; }
-        #toggleQuizButton { background-color: #5bc0de; } 
+        #toggleQuizButton { background-color: #5bc0de; }
+        #toggleQuestionsButton { background-color: #79a109; }
         .close-btn { position: absolute; top: 15px; left: 20px; font-size: 30px; color: #aaa; cursor: pointer; }
-        
+
         .quiz-container { display: none; padding: 20px; max-width: 400px; margin: 0 auto; text-align: center; padding-top: 70px; }
+        .questions-container { display: none; padding: 20px; max-width: 600px; margin: 0 auto; padding-top: 70px; }
         .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; color: #666; }
         .quiz-word-box { font-size: 36px; font-weight: bold; margin-bottom: 30px; color: #333; }
         .quiz-word-type { font-style: italic; color: #79a109; font-size: 18px; display: block; margin-bottom: 10px; }
@@ -106,6 +108,19 @@
         .progress-bar { height: 100%; width: 0%; background-color: #79a109; transition: width 0.3s; }
         .quiz-results { display: none; text-align: center; }
         .quiz-results h2 { color: #79a109; font-size: 30px; margin-bottom: 10px; }
+
+        /* MAKALE SORULARI STİLLERİ */
+        .question-box { margin-bottom: 25px; padding: 15px; border: 1px solid #eee; border-radius: 8px; background-color: #fcfcfc; }
+        .question-text { font-size: 18px; font-weight: bold; color: #333; margin-bottom: 15px; }
+        .question-option { display: block; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; background-color: #fff; cursor: pointer; transition: background-color 0.2s, border-color 0.2s; }
+        .question-option:hover { background-color: #f0f0f0; }
+        .question-option.correct { background-color: #d4edda; border-color: #79a109; color: #155724; font-weight: bold; }
+        .question-option.wrong { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .question-option.selected { box-shadow: 0 0 0 3px #007bff; }
+        .question-progress { text-align: right; margin-bottom: 10px; font-size: 14px; color: #666; }
+        .questions-results-screen { text-align: center; }
+        .questions-results-screen h2 { color: #79a109; }
+        .questions-results-screen p { font-size: 18px; }
     </style>
 </head>
 <body>
@@ -113,7 +128,7 @@
 <div class="top-buttons">
     <button id="toggleSidebarButton">W Kelimeler</button>
     <button id="toggleQuizButton" style="background-color: #5bc0de;">Word Quiz</button>
-    <button style="background-color: #79a109;">Questions</button>
+    <button id="toggleQuestionsButton" style="background-color: #79a109;">Questions</button>
 </div>
 
 <div id="wordsSidebar" class="words-sidebar">
@@ -149,16 +164,16 @@
     </div>
 </div>
 
-<div id="mainContent" class="main-container" style="padding-top: 70px;"> 
+<div id="mainContent" class="main-container" style="padding-top: 70px;">
     <h1>Green Turtles</h1>
     <div class="info-bar">
         <span>🕒 1 min</span>
         <span>W 108 words</span>
         <span class="status">Okundu olarak işaretle</span>
     </div>
-    
+
     <img src="https://via.placeholder.com/600x250/79a109/ffffff?text=Green+Turtle+Underwater+Image" alt="Green Turtle underwater" class="article-image">
-    
+
     <p class="sentence-paragraph">
         <span class="english-text">Green <span class="highlight">turtles</span> are <span class="highlight">big</span> <span class="highlight">animal</span>s.</span>
         <span class="translation-tooltip">Yeşil kaplumbağalar büyük hayvanlardır.</span>
@@ -177,7 +192,7 @@
     </p>
 
     <div style="margin-top: 20px;"></div>
-    
+
     <p class="sentence-paragraph">
         <span class="english-text">Green <span class="highlight">turtles</span> <span class="highlight">like</span> <span class="highlight">warm</span> water.</span>
         <span class="translation-tooltip">Yeşil kaplumbağalar ılık suyu sever.</span>
@@ -194,7 +209,7 @@
         <span class="english-text">They use their <span class="highlight">strong</span> <span class="highlight">leg</span>s (<span class="highlight">flipper</span>s) to <span class="highlight">swim</span>.</span>
         <span class="translation-tooltip">Yüzmek için güçlü bacaklarını (yüzgeçlerini) kullanırlar.</span>
     </p>
-    
+
     <div style="margin-top: 20px;"></div>
 
     <p class="sentence-paragraph">
@@ -213,9 +228,9 @@
         <span class="english-text">They can <span class="highlight">live</span> for a very <span class="highlight">long</span> time, maybe 80 years!</span>
         <span class="translation-tooltip">Çok uzun yaşayabilirler, belki 80 yıl!</span>
     </p>
-    
+
     <div style="margin-top: 20px;"></div>
-    
+
     <p class="sentence-paragraph">
         <span class="english-text">What do they <span class="highlight">eat</span>?</span>
         <span class="translation-tooltip">Ne yerler?</span>
@@ -232,9 +247,9 @@
         <span class="english-text">They are mostly herbivores.</span>
         <span class="translation-tooltip">Çoğunlukla otçuldurlar.</span>
     </p>
-    
+
     <div style="margin-top: 20px;"></div>
-    
+
     <p class="sentence-paragraph">
         <span class="english-text">Green <span class="highlight">turtles</span> are <span class="highlight">important</span>.</span>
         <span class="translation-tooltip">Yeşil kaplumbağalar önemlidir.</span>
@@ -259,18 +274,18 @@
         <span id="quizBackButton" style="cursor: pointer; font-size: 24px;">&times;</span>
         <span id="quizProgress">1/26</span>
     </div>
-    
+
     <div class="progress-bar-container">
         <div id="progressBar" class="progress-bar"></div>
     </div>
-    
+
     <div id="questionArea">
         <span class="quiz-word-type" id="currentWordType"></span>
         <div class="quiz-word-box" id="currentWord"></div>
         <div id="optionsContainer">
             </div>
     </div>
-    
+
     <div id="resultsScreen" class="quiz-results">
         <h2>Tebrikler!</h2>
         <p>Testi bitirdiniz. <span id="correctCount">0</span> doğru cevabınız var.</p>
@@ -278,18 +293,44 @@
     </div>
 </div>
 
+<div id="questionsContainer" class="questions-container">
+    <div class="quiz-header">
+        <span id="questionsBackButton" style="cursor: pointer; font-size: 24px;">&times;</span>
+        <span id="questionsProgress">1/5</span>
+    </div>
+
+    <div class="progress-bar-container">
+        <div id="questionsProgressBar" class="progress-bar"></div>
+    </div>
+
+    <div id="articleQuestionArea">
+        <div class="question-box">
+            <div class="question-text" id="articleQuestionText"></div>
+            <div id="articleOptionsContainer"></div>
+        </div>
+    </div>
+
+    <div id="articleResultsScreen" class="quiz-results questions-results-screen" style="display: none;">
+        <h2>Makale Anlama Sınavı Tamamlandı!</h2>
+        <p>Toplamda <span id="articleCorrectCount">0</span> doğru cevap verdiniz.</p>
+        <button id="restartArticleQuizButton" class="option-button" style="width: auto;">Tekrar Başla</button>
+    </div>
+</div>
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const sidebar = document.getElementById("wordsSidebar");
         const mainContent = document.getElementById("mainContent");
         const quizContainer = document.getElementById("quizContainer");
+        const questionsContainer = document.getElementById("questionsContainer"); // YENİ
         const toggleSidebarButton = document.getElementById("toggleSidebarButton");
         const closeSidebarButton = document.getElementById("closeSidebarButton");
         const toggleQuizButton = document.getElementById("toggleQuizButton");
-        // HTML yapısı değiştiği için .sentence-paragraph artık sadece bir cümle içeriyor.
+        const toggleQuestionsButton = document.getElementById("toggleQuestionsButton"); // YENİ
         const sentenceParagraphs = document.querySelectorAll('.sentence-paragraph');
         
-        // Quiz Elementleri (Kısaltıldı)
+        // Quiz Elementleri
         const quizProgress = document.getElementById('quizProgress');
         const progressBar = document.getElementById('progressBar');
         const currentWord = document.getElementById('currentWord');
@@ -299,6 +340,17 @@
         const resultsScreen = document.getElementById('resultsScreen');
         const correctCountSpan = document.getElementById('correctCount');
         const restartQuizButton = document.getElementById('restartQuizButton');
+
+        // Makale Soruları Elementleri (YENİ)
+        const questionsProgress = document.getElementById('questionsProgress');
+        const questionsProgressBar = document.getElementById('questionsProgressBar');
+        const articleQuestionText = document.getElementById('articleQuestionText');
+        const articleOptionsContainer = document.getElementById('articleOptionsContainer');
+        const articleQuestionArea = document.getElementById('articleQuestionArea');
+        const articleResultsScreen = document.getElementById('articleResultsScreen');
+        const articleCorrectCountSpan = document.getElementById('articleCorrectCount');
+        const questionsBackButton = document.getElementById('questionsBackButton');
+        const restartArticleQuizButton = document.getElementById('restartArticleQuizButton');
 
         // Quiz Verisi (Korumaya alındı)
         const quizData = [
@@ -330,24 +382,62 @@
             { word: "important", type: "adj.", correct: "önemli" }
         ];
 
-        let currentQuestionIndex = 0;
-        let score = 0;
+        // Makale Soruları Verisi (YENİ)
+        const articleQuestions = [
+            { 
+                question: "Green Turtle'lar makalede hangi renkte olarak belirtiliyor?",
+                options: ["Yeşil", "Mavi ve Gri", "Kahverengi veya Sarı", "Sadece Yeşil"],
+                correct: "Kahverengi veya Sarı"
+            },
+            {
+                question: "Yeşil kaplumbağalar nerede yaşamayı sever?",
+                options: ["Soğuk sularda", "Nehirlerde", "Plajlara yakın ılık yerlerde", "Ormanlarda"],
+                correct: "Plajlara yakın ılık yerlerde"
+            },
+            {
+                question: "Yetişkin Yeşil kaplumbağalar esas olarak ne yer?",
+                options: ["Küçük deniz hayvanları", "Deniz yosunu gibi bitkiler", "Balık", "Kabuklular"],
+                correct: "Deniz yosunu gibi bitkiler"
+            },
+            {
+                question: "Yetişkin bir Yeşil kaplumbağa yaklaşık ne kadar uzun olabilir?",
+                options: ["10 santimetre", "1 metre", "5 metre", "20 santimetre"],
+                correct: "1 metre"
+            },
+            {
+                question: "Makaleye göre kaplumbağaların yuva yapabilmeleri için insanların ne yapması gerekiyor?",
+                options: ["Onları beslemeli", "Plajları temiz tutmalı", "Onlarla yüzmeli", "Yeni deniz parkları inşa etmeli"],
+                correct: "Plajları temiz tutmalı"
+            }
+        ];
+
+        let currentQuestionIndex = 0; // Kelime testi
+        let score = 0; // Kelime testi skoru
         const allTranslations = quizData.map(q => q.correct);
+        
+        // Makale Soruları değişkenleri (YENİ)
+        let currentArticleQuestionIndex = 0;
+        let articleScore = 0;
+        // Soruları karıştırmak için
+        shuffleArray(articleQuestions);
+        // Orijinal kelime testini karıştırmak için
+        shuffleArray(quizData);
+
 
         // --- Cümle Çeviri Fonksiyonları (Bu kısım zaten doğruydu, sadece bağlamı değişti) ---
-        
+
         function closeAllTranslations() {
             sentenceParagraphs.forEach(container => {
                 container.classList.remove('active');
             });
         }
-        
+
         function handleSentenceClick(element) {
             const isActive = element.classList.contains('active');
-            
+
             // Tüm çevirileri kapat
             closeAllTranslations();
-            
+
             // Eğer tıklanan element kapalıysa, şimdi aç
             if (!isActive) {
                 element.classList.add('active');
@@ -363,19 +453,21 @@
 
         // Vücudun herhangi bir yerine tıklanırsa açık olan çevirileri kapat
         document.body.addEventListener('click', function(e) {
-            if (!e.target.closest('.sentence-paragraph') && 
-                !e.target.closest('.top-buttons') && 
-                !e.target.closest('.words-sidebar') && 
-                !e.target.closest('.quiz-container')) {
+            if (!e.target.closest('.sentence-paragraph') &&
+                !e.target.closest('.top-buttons') &&
+                !e.target.closest('.words-sidebar') &&
+                !e.target.closest('.quiz-container') &&
+                !e.target.closest('.questions-container')) { // YENİ EKLENDİ
                 closeAllTranslations();
             }
         });
-        
+
         // --- Diğer Fonksiyonlar (Korumaya alındı) ---
 
         function showSection(sectionId) {
             mainContent.style.display = 'none';
             quizContainer.style.display = 'none';
+            questionsContainer.style.display = 'none'; // YENİ
             sidebar.classList.remove("open");
 
             if (sectionId === 'main') {
@@ -383,14 +475,21 @@
             } else if (sectionId === 'quiz') {
                 quizContainer.style.display = 'block';
                 if (currentQuestionIndex === quizData.length) {
-                    showResults(); 
+                    showResults();
                 } else {
                     displayQuestion();
+                }
+            } else if (sectionId === 'questions') { // YENİ
+                questionsContainer.style.display = 'block';
+                if (currentArticleQuestionIndex === articleQuestions.length) {
+                    showArticleResults();
+                } else {
+                    displayArticleQuestion();
                 }
             }
             closeAllTranslations();
         }
-        
+
         function toggleNav() {
             if (sidebar.classList.contains("open")) {
                 sidebar.classList.remove("open");
@@ -399,7 +498,7 @@
                 sidebar.classList.add("open");
                 mainContent.classList.add("pushed");
             }
-            closeAllTranslations(); 
+            closeAllTranslations();
         }
 
         function shuffleArray(array) {
@@ -414,9 +513,10 @@
             const incorrectOptions = allTranslations.filter(t => t !== correctAnswer);
             let chosenIncorrect = shuffleArray(incorrectOptions).slice(0, 3);
             let options = [...chosenIncorrect, correctAnswer];
-            return shuffleArray(options); 
+            return shuffleArray(options);
         }
 
+        // Kelime Testi Fonksiyonları (Korumaya alındı)
         function displayQuestion() {
             questionArea.style.display = 'block';
             resultsScreen.style.display = 'none';
@@ -448,7 +548,7 @@
 
         function checkAnswer(selectedButton, selectedAnswer, correctAnswer) {
             Array.from(optionsContainer.children).forEach(btn => btn.disabled = true);
-            
+
             if (selectedAnswer === correctAnswer) {
                 selectedButton.classList.add('correct', 'selected');
                 score++;
@@ -470,12 +570,12 @@
                 displayQuestion();
             }, 1000);
         }
-        
+
         function showResults() {
             questionArea.style.display = 'none';
             resultsScreen.style.display = 'block';
             correctCountSpan.textContent = score;
-            progressBar.style.width = '100%'; 
+            progressBar.style.width = '100%';
         }
 
         function restartQuiz() {
@@ -485,18 +585,101 @@
             displayQuestion();
         }
 
+        // Makale Soruları Fonksiyonları (YENİ EKLENEN KISIM)
+        function startArticleQuiz() {
+            currentArticleQuestionIndex = 0;
+            articleScore = 0;
+            shuffleArray(articleQuestions); // Soruları yeniden karıştır
+            displayArticleQuestion();
+        }
+
+        function displayArticleQuestion() {
+            articleQuestionArea.style.display = 'block';
+            articleResultsScreen.style.display = 'none';
+
+            if (currentArticleQuestionIndex >= articleQuestions.length) {
+                showArticleResults();
+                return;
+            }
+
+            const currentQ = articleQuestions[currentArticleQuestionIndex];
+            questionsProgress.textContent = `${currentArticleQuestionIndex + 1}/${articleQuestions.length}`;
+            const progressPercentage = (currentArticleQuestionIndex / articleQuestions.length) * 100;
+            questionsProgressBar.style.width = `${progressPercentage}%`;
+
+            articleQuestionText.textContent = currentQ.question;
+            articleOptionsContainer.innerHTML = '';
+
+            // Seçenekleri rastgele sırala
+            const options = shuffleArray([...currentQ.options]);
+
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.classList.add('question-option');
+                button.textContent = option;
+                button.setAttribute('data-answer', option);
+                button.onclick = () => checkArticleAnswer(button, option, currentQ.correct);
+                articleOptionsContainer.appendChild(button);
+            });
+        }
+
+        function checkArticleAnswer(selectedButton, selectedAnswer, correctAnswer) {
+            // Tüm butonları devre dışı bırak
+            Array.from(articleOptionsContainer.children).forEach(btn => btn.disabled = true);
+
+            if (selectedAnswer === correctAnswer) {
+                selectedButton.classList.add('correct');
+                articleScore++;
+            } else {
+                selectedButton.classList.add('wrong');
+                // Doğru cevabı bul ve yeşil yap
+                const correctButton = Array.from(articleOptionsContainer.children).find(btn => btn.getAttribute('data-answer') === correctAnswer);
+                if (correctButton) {
+                    correctButton.classList.add('correct');
+                }
+            }
+
+            setTimeout(() => {
+                currentArticleQuestionIndex++;
+                displayArticleQuestion();
+            }, 1500); // 1.5 saniye sonra sonraki soruya geç
+        }
+
+        function showArticleResults() {
+            articleQuestionArea.style.display = 'none';
+            articleResultsScreen.style.display = 'block';
+            articleCorrectCountSpan.textContent = articleScore;
+            questionsProgressBar.style.width = '100%';
+        }
 
         // --- Olay Dinleyicisi Atamaları ---
         toggleSidebarButton.addEventListener('click', toggleNav);
         closeSidebarButton.addEventListener('click', toggleNav);
+
         toggleQuizButton.addEventListener('click', () => {
             showSection('quiz');
             restartQuiz();
         });
+
+        // Makale Soruları Butonu Olay Dinleyicisi (YENİ)
+        toggleQuestionsButton.addEventListener('click', () => {
+            showSection('questions');
+            startArticleQuiz();
+        });
+
         quizBackButton.addEventListener('click', () => {
             showSection('main');
         });
+
+        // Makale Soruları Geri/Kapatma Butonu (YENİ)
+        questionsBackButton.addEventListener('click', () => {
+            showSection('main');
+        });
+
         restartQuizButton.addEventListener('click', restartQuiz);
+        
+        // Makale Soruları Tekrar Başlatma Butonu (YENİ)
+        restartArticleQuizButton.addEventListener('click', startArticleQuiz);
 
         // Başlangıçta ana içeriği göster
         showSection('main');
