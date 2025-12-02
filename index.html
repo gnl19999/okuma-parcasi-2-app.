@@ -22,9 +22,10 @@
             margin: 0 auto;
             transition: margin-right 0.5s;
         }
+        /* Başlık ve Bilgi Çubuğu Stilleri */
         h1 {
             color: #333;
-            font-size: 24px;
+            font-size: 28px; /* Daha büyük başlık */
             margin-bottom: 5px;
         }
         .info-bar {
@@ -37,40 +38,61 @@
         .info-bar span {
             margin-right: 15px;
         }
+        .info-bar .status {
+            font-weight: bold;
+            color: #79a109;
+            margin-left: auto;
+            background-color: #e6ffe6; /* Yeşil arka plan */
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
 
         /* VURGULU KELİMELER */
         .highlight {
-            color: #79a109;
+            color: #79a109; /* Yeşil tonu */
             font-weight: 500;
         }
         
-        /* CÜMLE VE ÇEVİRİ STİLİ */
+        /* GÖRSEL STİLİ */
+        .article-image {
+            width: 100%;
+            height: auto;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* CÜMLE VE ÇEVİRİ STİLİ (GÖRSEL UYUMU İÇİN GÜNCELLENDİ) */
         .sentence-paragraph {
             position: relative;
-            /* Her paragraf/cümle bloğuna yeterli yer bırakıyoruz */
-            margin-bottom: 30px; 
+            margin-bottom: 20px;
             cursor: pointer;
-            padding: 5px;
-            border-bottom: 1px dotted #ccc;
+            padding: 5px 0;
+            border-bottom: 1px dotted #ccc; /* Ali örneğindeki gibi */
         }
         .sentence-paragraph:hover {
             background-color: #f9f9f9;
         }
         .english-text {
-            display: block; /* İngilizce metnin çeviriden ayrı durmasını sağlar */
+            display: block; 
+            font-size: 16px;
         }
         
         /* Çeviri Arka Planı Yeşil */
         .translation-tooltip {
             /* Başlangıçta gizli */
-            max-height: 0;
+            visibility: hidden;
             opacity: 0;
+            height: 0;
             padding: 0 10px;
-            transition: max-height 0.3s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+            
+            /* Animasyon için geçiş */
+            transition: opacity 0.3s, height 0.3s, padding 0.3s, visibility 0.3s;
             
             /* Görünüm stili */
             width: 95%;
-            background-color: #5cb85c; /* <-- İstenen YEŞİL renk */
+            background-color: #5cb85c; /* Yeşil */
             color: white;
             text-align: left;
             border-radius: 4px;
@@ -82,8 +104,9 @@
         }
         .sentence-paragraph.active .translation-tooltip {
             /* Aktifken göster */
-            max-height: 100px; 
+            visibility: visible;
             opacity: 1;
+            height: auto; /* İçeriğe göre otomatik yükseklik */
             padding: 8px 10px;
         }
         
@@ -95,7 +118,7 @@
             z-index: 20;
             top: 0;
             right: 0;
-            background-color: #f1f1f1;
+            background-color: white; /* Görseldeki gibi beyaz arka plan */
             overflow-y: auto;
             padding-top: 20px;
             transform: translateX(300px); 
@@ -116,7 +139,7 @@
         .word-item {
             margin-bottom: 15px;
             padding-bottom: 5px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #eee; /* Daha ince çizgi */
         }
         .english-word {
             font-weight: bold;
@@ -134,18 +157,21 @@
             color: #666;
             font-size: 14px;
             display: block;
-            margin-left: 15px;
-            border-left: 2px solid #ccc;
-            padding-left: 5px;
+            margin-left: 0; /* Sol boşluk kaldırıldı */
         }
 
         /* BUTONLAR VE BAŞLIK */
         .top-buttons {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 0; /* Tam üste sabitlendi */
+            right: 0;
+            left: 0;
             z-index: 30;
             display: flex;
+            justify-content: flex-end;
+            padding: 10px 10px 5px 10px;
+            background-color: white; /* Üst bandı beyaz yaptık */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .top-buttons button {
             background-color: #007bff;
@@ -154,14 +180,18 @@
             padding: 8px 15px;
             font-size: 16px;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 20px; /* Daha yuvarlak butonlar */
             margin-left: 10px;
+        }
+        #toggleSidebarButton {
+            background-color: #f1f1f1; /* W butonu daha açık */
+            color: #333;
         }
         .close-btn {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 24px;
+            top: 15px;
+            left: 20px;
+            font-size: 30px; /* Daha büyük çarpı işareti */
             color: #aaa;
             cursor: pointer;
         }
@@ -182,37 +212,57 @@
         <div class="word-item">
             <span class="english-word">turtle</span>
             <span class="word-type">noun.</span>
-            <span class="turkish-translation">kaplumbağa, deniz kaplumbağası</span>
+            <span class="turkish-translation">deniz kaplumbağası, kaplumbağa</span>
         </div>
         <div class="word-item">
-            <span class="english-word">big / large</span>
+            <span class="english-word">large</span>
             <span class="word-type">adj.</span>
             <span class="turkish-translation">büyük, iri</span>
         </div>
         <div class="word-item">
-            <span class="english-word">ocean</span>
-            <span class="word-type">noun.</span>
-            <span class="turkish-translation">okyanus, deniz</span>
+            <span class="english-word">live</span>
+            <span class="word-type">verb.</span>
+            <span class="turkish-translation">yaşamak</span>
+        </div>
+        <div class="word-item">
+            <span class="english-word">like</span>
+            <span class="word-type">verb.</span>
+            <span class="turkish-translation">hoşlanmak, sevmek</span>
         </div>
         <div class="word-item">
             <span class="english-word">warm</span>
             <span class="word-type">adj.</span>
-            <span class="turkish-translation">ılık, sıcak</span>
+            <span class="turkish-translation">ılık, sıcacık</span>
         </div>
         <div class="word-item">
-            <span class="english-word">beach</span>
-            <span class="word-type">noun.</span>
-            <span class="turkish-translation">plaj, sahil</span>
-        </div>
-        <div class="word-item">
-            <span class="english-word">swim</span>
+            <span class="english-word">eat</span>
             <span class="word-type">verb.</span>
-            <span class="turkish-translation">yüzmek</span>
+            <span class="turkish-translation">yemek</span>
         </div>
         <div class="word-item">
-            <span class="english-word">fast</span>
+            <span class="english-word">plant</span>
+            <span class="word-type">noun.</span>
+            <span class="turkish-translation">bitki</span>
+        </div>
+        <div class="word-item">
+            <span class="english-word">grow</span>
+            <span class="word-type">verb.</span>
+            <span class="turkish-translation">büyümek, yetişmek</span>
+        </div>
+        <div class="word-item">
+            <span class="english-word">shell</span>
+            <span class="word-type">noun.</span>
+            <span class="turkish-translation">kabuk</span>
+        </div>
+        <div class="word-item">
+            <span class="english-word">keep safe</span>
+            <span class="word-type">verb.</span>
+            <span class="turkish-translation">güvende tutmak, -den korumak</span>
+        </div>
+        <div class="word-item">
+            <span class="english-word">strong</span>
             <span class="word-type">adj.</span>
-            <span class="turkish-translation">hızlı</span>
+            <span class="turkish-translation">güçlü, kuvvetli</span>
         </div>
         <div class="word-item">
             <span class="english-word">flipper</span>
@@ -224,59 +274,35 @@
             <span class="word-type">noun.</span>
             <span class="turkish-translation">yetişkin</span>
         </div>
-        <div class="word-item">
-            <span class="english-word">eat</span>
-            <span class="word-type">verb.</span>
-            <span class="turkish-translation">yemek</span>
-        </div>
-        <div class="word-item">
-            <span class="english-word">seaweed / plant</span>
-            <span class="word-type">noun.</span>
-            <span class="turkish-translation">deniz yosunu, bitki</span>
-        </div>
-        <div class="word-item">
-            <span class="english-word">danger</span>
-            <span class="word-type">noun.</span>
-            <span class="turkish-translation">tehlike</span>
-        </div>
-        <div class="word-item">
-            <span class="english-word">nest / egg</span>
-            <span class="word-type">noun.</span>
-            <span class="turkish-translation">yuva / yumurta</span>
-        </div>
     </div>
 </div>
 
-<div id="mainContent" class="main-container">
-
-    <div style="text-align: right; color: #79a109; font-weight: bold; font-size: 18px; margin-bottom: 10px;">A1</div>
+<div id="mainContent" class="main-container" style="padding-top: 70px;"> <div style="text-align: right; color: #666; font-weight: bold; font-size: 18px; margin-bottom: 10px;"></div>
     
     <h1>Green Turtles</h1>
     <div class="info-bar">
         <span>🕒 1 min</span>
-        <span>W 52 words</span>
-        <span style="color: #79a109; margin-left: auto;">Okundu olarak işaretle</span>
+        <span>W 26 words</span>
+        <span class="status">Okundu olarak işaretle</span>
     </div>
     
+    <img src="https://via.placeholder.com/600x250/79a109/ffffff?text=Green+Turtle+Underwater+Image" alt="Green Turtle underwater" class="article-image">
+    
     <p class="sentence-paragraph">
-        <span class="english-text">Green <span class="highlight">turtles</span> are <span class="highlight">big</span> animals. They are a kind of sea <span class="highlight">turtle</span>. Their name is "Green Turtle," but they are often brown or yellow. They live in the <span class="highlight">ocean</span>.</span>
-        <span class="translation-tooltip">Yeşil kaplumbağalar büyük hayvanlardır. Onlar bir tür deniz kaplumbağasıdır. İsimleri "Yeşil Kaplumbağa"dır, ancak genellikle kahverengi veya sarıdırlar. Okyanusta yaşarlar.</span>
+        <span class="english-text">Green <span class="highlight">turtles</span> are very <span class="highlight">large</span>. They <span class="highlight">live</span> in the sea, and they <span class="highlight">like</span> <span class="highlight">warm</span> water.</span>
+        <span class="translation-tooltip">Yeşil kaplumbağalar çok büyüktür. Denizde yaşarlar ve ılık suyu severler.</span>
     </p>
     <p class="sentence-paragraph">
-        <span class="english-text">Green <span class="highlight">turtles</span> <span class="highlight">like</span> <span class="highlight">warm</span> water. They live in <span class="highlight">warm</span> places like near beaches. They <span class="highlight">swim</span> very <span class="highlight">fast</span>. They use their strong legs (<span class="highlight">flippers</span>) to <span class="highlight">swim</span>.</span>
-        <span class="translation-tooltip">Yeşil kaplumbağalar ılık suyu sever. Plajlara yakın ılık yerlerde yaşarlar. Çok hızlı yüzerler. Yüzmek için güçlü bacaklarını (yüzgeçlerini) kullanırlar.</span>
+        <span class="english-text">These turtles <span class="highlight">eat</span> green <span class="highlight">plants</span> in the sea. They can <span class="highlight">grow</span> to be 1-1,5 m long.</span>
+        <span class="translation-tooltip">Bu kaplumbağalar denizde yeşil bitkiler yerler. 1-1,5 m uzunluğa kadar büyüyebilirler.</span>
     </p>
     <p class="sentence-paragraph">
-        <span class="english-text">A small green <span class="highlight">turtle</span> is very small. But when they are <span class="highlight">adults</span>, they are <span class="highlight">big</span>! Some can be 1 meter long. They can live for a very long time, maybe 80 years!</span>
-        <span class="translation-tooltip">Küçük bir yeşil kaplumbağa çok küçüktür. Ama yetişkin olduklarında büyüktürler! Bazıları 1 metre uzunluğunda olabilir. Çok uzun yaşayabilirler, belki 80 yıl!</span>
+        <span class="english-text">The green <span class="highlight">turtle</span> has a hard <span class="highlight">shell</span>. The <span class="highlight">shell</span> <span class="highlight">keeps safe</span> the turtle's body.</span>
+        <span class="translation-tooltip">Yeşil kaplumbağanın sert bir kabuğu vardır. Kabuk, kaplumbağanın vücudunu güvende tutar.</span>
     </p>
     <p class="sentence-paragraph">
-        <span class="english-text">What do they <span class="highlight">eat</span>? When they are young, they <span class="highlight">eat</span> small sea animals. But when they are <span class="highlight">big</span>, they mainly <span class="highlight">eat</span> <span class="highlight">plants</span> in the sea, like seaweed. They are mostly herbivores.</span>
-        <span class="translation-tooltip">Ne yerler? Genç olduklarında, küçük deniz hayvanlarını yerler. Ama büyüdüklerinde, esas olarak deniz yosunu gibi denizdeki bitkileri yerler. Çoğunlukla otçuldurlar.</span>
-    </p>
-    <p class="sentence-paragraph">
-        <span class="english-text">Green <span class="highlight">turtles</span> are important. We must help them. Many <span class="highlight">turtles</span> are in <span class="highlight">danger</span>. People must keep the beaches <span class="highlight">clean</span> so <span class="highlight">turtles</span> can make their <span class="highlight">nests</span> and lay their <span class="highlight">eggs</span> there.</span>
-        <span class="translation-tooltip">Yeşil kaplumbağalar önemlidir. Onlara yardım etmeliyiz. Birçok kaplumbağa tehlikededir. İnsanlar, kaplumbağaların yuvalarını yapıp yumurtlayabilmeleri için plajları temiz tutmalıdır.</span>
+        <span class="english-text">Turtles have <span class="highlight">strong</span> <span class="highlight">flipper</span>s. They use their <span class="highlight">flipper</span>s to <span class="highlight">swim</span> <span class="highlight">fast</span> in the <span class="highlight">ocean</span>.</span>
+        <span class="translation-tooltip">Kaplumbağaların güçlü yüzgeçleri vardır. Okyanusta hızlı yüzmek için yüzgeçlerini kullanırlar.</span>
     </p>
 
 </div>
