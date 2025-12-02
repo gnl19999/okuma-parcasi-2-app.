@@ -25,7 +25,7 @@
             transition: margin-right .5s; /* Kayma efekti için geçiş */
             box-sizing: border-box;
         }
-
+        
         /* CÜMLE VURGULAMA VE ÇEVİRİ STİLLERİ */
         .sentence-group { cursor: pointer; padding: 5px; margin-bottom: 15px; }
         .english-sentence { font-weight: bold; color: #333; }
@@ -37,7 +37,7 @@
         #word-list-panel {
             height: 100%; 
             width: 0; 
-            position: absolute; 
+            position: absolute; /* Iframe uyumu için 'fixed' yerine 'absolute' kullanıldı */
             z-index: 100; 
             top: 0;
             right: 0;
@@ -118,20 +118,20 @@
     <div id="word-list-panel">
         <span class="close-btn" onclick="closeNav()">&times;</span>
         <div class="panel-content">
+            <h3>📝 Kelime Listesi</h3>
             <table class="word-table">
                 <tbody>
-                    <tr><td>turtle</td><td>deniz kaplumbağası, kaplumbağa</td></tr>
-                    <tr><td>large</td><td>büyük, iri</td></tr>
-                    <tr><td>live</td><td>yaşamak</td></tr>
-                    <tr><td>like</td><td>hoşlanmak, sevmek</td></tr>
-                    <tr><td>warm</td><td>ılık, sıcacık</td></tr>
-                    <tr><td>eat</td><td>yemek</td></tr>
-                    <tr><td>plant</td><td>bitki</td></tr>
-                    <tr><td>grow</td><td>büyümek, yetişmek</td></tr>
-                    <tr><td>shell</td><td>kabuk</td></tr>
-                    <tr><td>keep safe</td><td>güvende tutmak, -den korumak</td></tr>
-                    <tr><td>strong</td><td>güçlü, kuvvetli</td></tr>
-                    <tr><td>flipper</td><td>yüzgeç</td></tr>
+                    <tr><td>Big</td><td>Büyük</td></tr>
+                    <tr><td>Ocean</td><td>Okyanus, Deniz</td></tr>
+                    <tr><td>Warm</td><td>Ilık, Sıcak</td></tr>
+                    <tr><td>Swim</td><td>Yüzmek</td></tr>
+                    <tr><td>Fast</td><td>Hızlı</td></tr>
+                    <tr><td>Adults</td><td>Yetişkinler</td></tr>
+                    <tr><td>Eat</td><td>Yemek</td></tr>
+                    <tr><td>Plants</td><td>Bitkiler</td></tr>
+                    <tr><td>Important</td><td>Önemli</td></tr>
+                    <tr><td>Danger</td><td>Tehlike</td></tr>
+                    <tr><td>Clean</td><td>Temiz</td></tr>
                 </tbody>
             </table>
         </div>
@@ -144,21 +144,31 @@
         </div>
 
         <div class="reading-section">
-            <h2>Green Turtles (A1 Reading)</h2>
+            <h2>🐢 Green Turtles (A1 Reading)</h2>
             
             <div class="sentence-group" onclick="toggleTranslation(this)">
-                <span class="english-sentence">Green turtles are very <span class="vibrant-word">large</span>. They <span class="vibrant-word">live</span> in the sea, and they <span class="vibrant-word">like</span> <span class="vibrant-word">warm</span> water.</span>
-                <p class="translation">Yeşil kaplumbağalar çok büyüktür. Onlar denizde yaşar ve ılık suyu severler.</p>
+                <span class="english-sentence">Green turtles are <span class="vibrant-word">big</span> animals. They are a kind of sea turtle. Their name is "Green Turtle," but they are often brown or yellow. They live in the <span class="vibrant-word">ocean</span>.</span>
+                <p class="translation">Yeşil kaplumbağalar büyük hayvanlardır. Onlar bir tür deniz kaplumbağasıdır. İsimleri "Yeşil Kaplumbağa"dır, ancak genellikle kahverengi veya sarıdırlar. Okyanusta yaşarlar.</p>
+            </div>
+
+            <div class="sentence-group" onclick="toggleTranslation(this)">
+                <span class="english-sentence">Green turtles like <span class="vibrant-word">warm</span> water. They live in warm places like near beaches. They swim very <span class="vibrant-word">fast</span>. They use their strong legs (flippers) to <span class="vibrant-word">swim</span>.</span>
+                <p class="translation">Yeşil kaplumbağalar ılık suyu sever. Plajlara yakın ılık yerlerde yaşarlar. Çok hızlı yüzerler. Yüzmek için güçlü bacaklarını (yüzgeçlerini) kullanırlar.</p>
             </div>
             
             <div class="sentence-group" onclick="toggleTranslation(this)">
-                <span class="english-sentence">These <span class="vibrant-word">turtles</span> <span class="vibrant-word">eat</span> green <span class="vibrant-word">plants</span> in the sea. They can <span class="vibrant-word">grow</span> to be 1-1,5 m long.</span>
-                <p class="translation">Bu kaplumbağalar denizde yeşil bitkileri yerler. 1-1,5 m uzunluğuna kadar büyüyebilirler.</p>
+                <span class="english-sentence">A small green turtle is very small. But when they are <span class="vibrant-word">adults</span>, they are big! Some can be 1 meter long. They can live for a very long time, maybe 80 years!</span>
+                <p class="translation">Küçük bir yeşil kaplumbağa çok küçüktür. Ama yetişkin olduklarında büyüktürler! Bazıları 1 metre uzunluğunda olabilir. Çok uzun yaşayabilirler, belki 80 yıl!</p>
+            </div>
+
+            <div class="sentence-group" onclick="toggleTranslation(this)">
+                <span class="english-sentence">What do they <span class="vibrant-word">eat</span>? When they are young, they eat small sea animals. But when they are big, they mainly eat <span class="vibrant-word">plants</span> in the sea, like seaweed. They are mostly herbivores.</span>
+                <p class="translation">Ne yerler? Genç olduklarında, küçük deniz hayvanlarını yerler. Ama büyüdüklerinde, esas olarak deniz yosunu gibi denizdeki bitkileri yerler. Çoğunlukla otçuldurlar.</p>
             </div>
             
             <div class="sentence-group" onclick="toggleTranslation(this)">
-                <span class="english-sentence">The green <span class="vibrant-word">turtle</span> has a hard <span class="vibrant-word">shell</span>. The shell <span class="vibrant-word">keeps</span> the <span class="vibrant-word">turtle</span> <span class="vibrant-word">safe</span>.</span>
-                <p class="translation">Yeşil kaplumbağanın sert bir kabuğu vardır. Kabuk, kaplumbağayı güvende tutar.</p>
+                <span class="english-sentence">Green turtles are <span class="vibrant-word">important</span>. We must help them. Many turtles are in <span class="vibrant-word">danger</span>. People must keep the beaches <span class="vibrant-word">clean</span> so turtles can make their nests and lay their eggs there.</span>
+                <p class="translation">Yeşil kaplumbağalar önemlidir. Onlara yardım etmeliyiz. Birçok kaplumbağa tehlikededir. İnsanlar, kaplumbağaların yuvalarını yapıp yumurtlayabilmeleri için plajları temiz tutmalıdır.</p>
             </div>
             
         </div>
