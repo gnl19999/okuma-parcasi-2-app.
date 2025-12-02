@@ -47,7 +47,7 @@
         /* KELİMELER PANELİ (SIDEBAR) STİLİ */
         .words-sidebar {
             height: 100%;
-            width: 0;
+            width: 0; /* Başlangıçta gizli */
             position: fixed;
             z-index: 20;
             top: 0;
@@ -60,14 +60,14 @@
         }
         .words-sidebar.open {
             width: 300px; /* Açıkken genişlik */
-            padding-left: 10px; /* İçerik için boşluk */
+            padding-left: 10px;
             padding-right: 10px;
         }
         .sidebar-content {
             padding: 0 10px 20px 10px;
         }
         .main-container.pushed {
-            margin-right: 300px;
+            margin-right: 300px; /* Sidebar açılınca ana içeriği iter */
         }
 
         /* KELİME LİSTESİ ITEM STİLİ */
@@ -240,12 +240,13 @@
         var sidebar = document.getElementById("wordsSidebar");
         var mainContent = document.getElementById("mainContent");
 
+        // 'open' sınıfı varsa kapat, yoksa aç
         if (sidebar.classList.contains("open")) {
-            // Kapat
+            // Kapatma
             sidebar.classList.remove("open");
             mainContent.classList.remove("pushed");
         } else {
-            // Aç
+            // Açma
             sidebar.classList.add("open");
             mainContent.classList.add("pushed");
         }
