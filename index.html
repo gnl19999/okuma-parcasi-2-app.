@@ -25,7 +25,7 @@
         /* Başlık ve Bilgi Çubuğu Stilleri */
         h1 {
             color: #333;
-            font-size: 28px; /* Daha büyük başlık */
+            font-size: 28px; 
             margin-bottom: 5px;
         }
         .info-bar {
@@ -42,14 +42,14 @@
             font-weight: bold;
             color: #79a109;
             margin-left: auto;
-            background-color: #e6ffe6; /* Yeşil arka plan */
+            background-color: #e6ffe6; 
             padding: 5px 10px;
             border-radius: 5px;
         }
 
         /* VURGULU KELİMELER */
         .highlight {
-            color: #79a109; /* Yeşil tonu */
+            color: #79a109; 
             font-weight: 500;
         }
         
@@ -63,13 +63,13 @@
             margin-bottom: 20px;
         }
 
-        /* CÜMLE VE ÇEVİRİ STİLİ (GÖRSEL UYUMU İÇİN GÜNCELLENDİ) */
+        /* CÜMLE VE ÇEVİRİ STİLİ */
         .sentence-paragraph {
             position: relative;
             margin-bottom: 20px;
             cursor: pointer;
             padding: 5px 0;
-            border-bottom: 1px dotted #ccc; /* Ali örneğindeki gibi */
+            border-bottom: 1px dotted #ccc; 
         }
         .sentence-paragraph:hover {
             background-color: #f9f9f9;
@@ -92,7 +92,7 @@
             
             /* Görünüm stili */
             width: 95%;
-            background-color: #5cb85c; /* Yeşil */
+            background-color: #5cb85c; /* YEŞİL */
             color: white;
             text-align: left;
             border-radius: 4px;
@@ -118,7 +118,7 @@
             z-index: 20;
             top: 0;
             right: 0;
-            background-color: white; /* Görseldeki gibi beyaz arka plan */
+            background-color: white; 
             overflow-y: auto;
             padding-top: 20px;
             transform: translateX(300px); 
@@ -139,7 +139,7 @@
         .word-item {
             margin-bottom: 15px;
             padding-bottom: 5px;
-            border-bottom: 1px solid #eee; /* Daha ince çizgi */
+            border-bottom: 1px solid #eee; 
         }
         .english-word {
             font-weight: bold;
@@ -157,20 +157,20 @@
             color: #666;
             font-size: 14px;
             display: block;
-            margin-left: 0; /* Sol boşluk kaldırıldı */
+            margin-left: 0; 
         }
 
         /* BUTONLAR VE BAŞLIK */
         .top-buttons {
             position: fixed;
-            top: 0; /* Tam üste sabitlendi */
+            top: 0; 
             right: 0;
             left: 0;
             z-index: 30;
             display: flex;
             justify-content: flex-end;
             padding: 10px 10px 5px 10px;
-            background-color: white; /* Üst bandı beyaz yaptık */
+            background-color: white; 
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .top-buttons button {
@@ -180,18 +180,18 @@
             padding: 8px 15px;
             font-size: 16px;
             cursor: pointer;
-            border-radius: 20px; /* Daha yuvarlak butonlar */
+            border-radius: 20px; 
             margin-left: 10px;
         }
         #toggleSidebarButton {
-            background-color: #f1f1f1; /* W butonu daha açık */
+            background-color: #f1f1f1; 
             color: #333;
         }
         .close-btn {
             position: absolute;
             top: 15px;
             left: 20px;
-            font-size: 30px; /* Daha büyük çarpı işareti */
+            font-size: 30px; 
             color: #aaa;
             cursor: pointer;
         }
@@ -277,7 +277,8 @@
     </div>
 </div>
 
-<div id="mainContent" class="main-container" style="padding-top: 70px;"> <div style="text-align: right; color: #666; font-weight: bold; font-size: 18px; margin-bottom: 10px;"></div>
+<div id="mainContent" class="main-container" style="padding-top: 70px;"> 
+    <div style="text-align: right; color: #666; font-weight: bold; font-size: 18px; margin-bottom: 10px;"></div>
     
     <h1>Green Turtles</h1>
     <div class="info-bar">
@@ -338,7 +339,11 @@
         // Cümle tıklama olaylarını dinleme
         sentenceParagraphs.forEach(paragraph => {
             paragraph.addEventListener('click', function() {
-                handleSentenceClick(this);
+                // Tıklanan öğenin bir alt öğe olmadığından emin olun (highlighted kelimelere tıklanıp
+                // tüm çevirinin kapanması engellenir)
+                if (event.target.closest('.sentence-paragraph') === this) {
+                    handleSentenceClick(this);
+                }
             });
         });
 
